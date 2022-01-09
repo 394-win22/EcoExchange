@@ -31,7 +31,7 @@ const items = {
     }
 };
 
-const catagories = { Food: 'Food', Clothes: 'Clothes', Recreation: 'Recreation', 
+const categories = { Food: 'Food', Clothes: 'Clothes', Recreation: 'Recreation', 
                      Electronics: 'Electronics', Other: 'Other' };
 
 
@@ -53,7 +53,7 @@ const Listing = ({ listing }) => (
   <div className="card m-1 p-2">
     <img class="card-img-top" src={listing.imageURL} alt={listing.title} />
     <div className="card-body">
-      <div className="card-title">{listing.name}</div>
+      <h4 className="card-title">{listing.name}</h4>
       <p className="card-text">{listing.description}</p>
       <a href="#" class="btn btn-primary">
         Offer Trade
@@ -69,11 +69,13 @@ const ListingList = ({ listings }) => (
 );
 
 const App = () => {
-    const [schedule, loading, error] = useCollection('listings');
+    const [listings, loading, error] = useCollection('listings');
+    if (loading) return <div>Loading</div>;
+    if (error) return <div>Error</div>;
     return (
     <div className="container">
-        <Banner title={schedule[0].name} />
-        <ListingList listings={schedule} />
+        <Banner title={items.title} />
+        <ListingList listings={listings} />
     </div>)
 };
 
