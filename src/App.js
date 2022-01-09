@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import React from 'react';
 import { useCollection } from "./utilities/data";
 
 const items = {
