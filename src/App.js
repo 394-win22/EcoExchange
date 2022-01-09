@@ -1,7 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { useCollection } from "./utilities/data";
 
 function App() {
+  const [schedule, loading, error] = useCollection('listings');
+
+  if (loading) return <div>Loading</div>;
+  if (error) return <div>Error</div>;
+  
   return (
     <div className="App">
       <header className="App-header">
