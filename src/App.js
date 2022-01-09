@@ -56,7 +56,7 @@ const Listing = ({ listing }) => (
 
 const ListingList = ({ listings }) => (
     <div className="course-list">
-        {Object.values(listings).map(listing => <Listing key={listing.id} course={listing} />)}
+        {Object.values(listings).map(listing => <Listing listing={listing} />)}
     </div>
 );
 
