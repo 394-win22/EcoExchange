@@ -51,11 +51,11 @@ const getCourseNumber = course => (
 
 const Listing = ({ listing }) => (
   <div className="card m-1 p-2">
-    <img class="card-img-top" src={listing.imageURL} alt={listing.title} />
+    <img className="card-img-top" src={listing.imageURL} alt={listing.title} />
     <div className="card-body">
       <div className="card-title">{listing.name}</div>
       <p className="card-text">{listing.description}</p>
-      <a href="#" class="btn btn-primary">
+      <a href="#" className="btn btn-primary">
         Offer Trade
       </a>
     </div>
@@ -64,12 +64,15 @@ const Listing = ({ listing }) => (
 
 const ListingList = ({ listings }) => (
     <div className="listing-list">
-        {Object.values(listings).map(listing => <Listing listing={listing} />)}
+        {Object.values(listings).map(listing => <Listing key={listing.id} listing={listing} />)}
     </div>
 );
 
 const App = () => {
     const [schedule, loading, error] = useCollection('listings');
+    if (loading) return <div>Loading</div>;
+    if (error) return <div>Error</div>;
+
     return (
     <div className="container">
         <Banner title={schedule[0].name} />
