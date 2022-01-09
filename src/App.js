@@ -50,7 +50,7 @@ const getCourseNumber = course => (
 );*/
 
 const Listing = ({ listing }) => (
-  <div className="card m-1 p-2">
+  <div className="card bg-light m-1">
     <img className="card-img-top" src={listing.imageURL} alt={listing.title} />
     <div className="card-body">
       <h4 className="card-title">{listing.name}</h4>
@@ -59,6 +59,7 @@ const Listing = ({ listing }) => (
         Offer Trade
       </a>
     </div>
+    <div class="card-footer text-muted">X.x miles away</div>
   </div>
 );
 
