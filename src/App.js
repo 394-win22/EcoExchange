@@ -45,17 +45,20 @@ const getCourseNumber = course => (
 );*/
 
 const Listing = ({ listing }) => (
-    <div className="card m-1 p-2">
-        <img class="card-img-top" src={listing.imageURL} alt= {listing.title} />
-        <div className="card-body">
-            <div className="card-title">{listing.title}</div>
-            <div className="card-text">{listing.description}</div>
-        </div>
+  <div className="card m-1 p-2">
+    <img class="card-img-top" src={listing.imageURL} alt={listing.title} />
+    <div className="card-body">
+      <div className="card-title">{listing.title}</div>
+      <p className="card-text">{listing.description}</p>
+      <a href="#" class="btn btn-primary">
+        Offer Trade
+      </a>
     </div>
+  </div>
 );
 
 const ListingList = ({ listings }) => (
-    <div className="course-list">
+    <div className="listing-list">
         {Object.values(listings).map(listing => <Listing listing={listing} />)}
     </div>
 );
