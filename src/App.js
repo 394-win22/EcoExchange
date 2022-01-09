@@ -51,11 +51,11 @@ const getCourseNumber = course => (
 
 const Listing = ({ listing }) => (
   <div className="card m-1 p-2">
-    <img class="card-img-top" src={listing.imageURL} alt={listing.title} />
+    <img className="card-img-top" src={listing.imageURL} alt={listing.title} />
     <div className="card-body">
       <h4 className="card-title">{listing.name}</h4>
       <p className="card-text">{listing.description}</p>
-      <a href="#" class="btn btn-primary">
+      <a href="#" className="btn btn-primary">
         Offer Trade
       </a>
     </div>
@@ -64,7 +64,7 @@ const Listing = ({ listing }) => (
 
 const ListingList = ({ listings }) => (
     <div className="listing-list">
-        {Object.values(listings).map(listing => <Listing listing={listing} />)}
+        {Object.values(listings).map(listing => <Listing key={listing.id} listing={listing} />)}
     </div>
 );
 
