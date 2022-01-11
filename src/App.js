@@ -1,8 +1,9 @@
 import { React, useState } from 'react';
+import { TradeButton} from "./components/Popup"
 import './App.css';
 import { useCollection } from "./utilities/data";
 import { userToItem } from "./utilities/location";
-import { ButtonRow } from '@thumbtack/thumbprint-react';
+
 
 const categories = {
   Food: "Food",
@@ -37,19 +38,38 @@ const items = {
             "category": categories.Food,
             "date": "1/1/2021",
         },
-
+        "recreation": {
+            "ListingID": "R101",
+            "name": "Baseball Bat",
+            "uid": "302",
+            "Latitude": "40",
+            "Longitude": "60",
+            "imageURL": "https://m.media-amazon.com/images/I/31Xc5u3XuDL._AC_.jpg",
+            "description": "Black wooden baseball bat for youth players",
+            "category": categories.Recreation,
+            "date": "1/10/2021",
+        }
     }
 };
 
 
 //category buttons
-<ButtonRow justify="center">
-    <Button>Food</Button>
-    <Button>Clothes</Button>
-    <Button>Recreation</Button>
-    <Button>Electronics</Button>
-    <Button>Other</Button>
-</ButtonRow>
+const CatButton = ({category, setCategory, checked}) => (
+    <>
+      <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)}/>
+      <label class="btn btn-success m-1 p-2" htmlFor={category}>
+      { category }
+      </label>
+    </>
+);
+
+const CatSelector = ({category, setCategory}) => (
+    <div className="btn-group">
+    { 
+      Object.values(categories).map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category}/>)
+    }
+    </div>
+);
 
 /*
 <Button 
@@ -64,9 +84,13 @@ const items = {
 
 //filtering the buttons 
 
-
+/*
 function filterCategory(props) {
-    
+    {items.items.filter(item => item.category == props.categ).map(filteredCateg => (
+        <li>
+          {filteredCateg.name}
+        </li>
+      ))}
 }
 
 const selected =<filterCategory categ = "Food" />;
@@ -74,33 +98,22 @@ const selected =<filterCategory categ = "Food" />;
 <button onClick={filterCategory(selected)}>
     Click me
 </button>
+*/
 
 const Banner = ({ title }) => (
     <h1>{title}</h1>
 );
 
-
-
-/*const getCourseTerm = course => (
-    terms[course.id.charAt(0)]
+const getItemCat = item => (
+    categories[item.category]
 );
 
-const getCourseNumber = course => (
+/*const getCourseNumber = course => (
     course.id.slice(1, 4)
 );*/
 
 
 
-const Popup = ({listing}) => {
-    return(
-    <div> </div>);
-};
-
-const TradeButton = ({ listing }) => (
-    <a href="#" className="btn btn-primary" onClick={() => Popup(listing)}>
-            Offer Trade
-      </a>
-);
 
 
 const Listing = ({ listing, userLocation }) => (
@@ -109,19 +122,24 @@ const Listing = ({ listing, userLocation }) => (
     <div className="card-body">
       <h4 className="card-title">{listing.name}</h4>
       <p className="card-text">{listing.description}</p>
-      <a href="#" className="btn btn-primary" onClick="ShowTrade">
-        Offer Trade
-      </a>
+      <TradeButton listing={listing} />
     </div>
     <div class="card-footer text-muted">{userToItem(userLocation, listing.Latitude, listing.Longitude)} miles away</div>
   </div>
 );
 
-const ListingList = ({ listings, userLocation }) => (
-    <div className="listing-list">
-        {Object.values(listings).map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} />)}
-    </div>
-);
+const ListingList = ({ listings, userLocation }) => {
+    const [category, setCategory] = useState('Food');
+    const catListings = Object.values(items).filter(item => category === getItemCat(item));
+    return (
+    <>
+        <CatSelector category={category} setCategory={setCategory}/>
+        <div className="listing-list">
+            {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} />)}
+        </div>
+        </>
+    );
+};
 
 const App = () => {
 
