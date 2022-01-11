@@ -58,7 +58,7 @@ const items = {
 const CatButton = ({ category, setCategory, checked }) => (
     <>
         <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)} />
-        <label class="btn btn-success m-1 p-2" htmlFor={category}>
+        <label className="btn btn-success m-1 p-2" htmlFor={category}>
             {category}
         </label>
     </>
@@ -123,7 +123,7 @@ const Listing = ({ listing, userLocation }) => {
         findImageUrl(listing.imageURL)
             .then((url) => setImageUrl(url))
             .catch((err) => console.log(err));
-    }, []);
+    }, [listing.imageURL]);
     return (
         <div className="card bg-light m-1">
             <img className="card-img-top" src={imageUrl} alt={listing.title} />
@@ -132,7 +132,7 @@ const Listing = ({ listing, userLocation }) => {
                 <p className="card-text">{listing.description}</p>
                 <TradeButton listing={listing} />
             </div>
-            <div class="card-footer text-muted">{userToItem(userLocation, listing.Latitude, listing.Longitude)} miles away</div>
+            <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
         </div>
     );
 };
@@ -160,7 +160,7 @@ const App = () => {
 
 
     navigator.geolocation.getCurrentPosition((pos) => {
-        [location, setLocation] = setLocation(pos);
+        setLocation(pos);
     },
         (error) => {
             console.log(error.message);
