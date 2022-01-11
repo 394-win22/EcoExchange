@@ -1,17 +1,17 @@
 import { React, useState, useEffect } from 'react';
-import { TradeButton} from "./components/Popup"
+import { TradeButton } from "./components/Popup"
 import './App.css';
 import { useCollection } from "./utilities/data";
 import { userToItem } from "./utilities/location";
-import {findImageUrl} from './utilities/firebase'
+import { findImageUrl } from './utilities/firebase'
 
 
 const categories = {
-  Food: "Food",
-  Clothes: "Clothes",
-  Recreation: "Recreation",
-  Electronics: "Electronics",
-  Other: "Other",
+    Food: "Food",
+    Clothes: "Clothes",
+    Recreation: "Recreation",
+    Electronics: "Electronics",
+    Other: "Other",
 };
 
 const items = {
@@ -55,20 +55,20 @@ const items = {
 
 
 //category buttons
-const CatButton = ({category, setCategory, checked}) => (
+const CatButton = ({ category, setCategory, checked }) => (
     <>
-      <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)}/>
-      <label class="btn btn-success m-1 p-2" htmlFor={category}>
-      { category }
-      </label>
+        <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)} />
+        <label class="btn btn-success m-1 p-2" htmlFor={category}>
+            {category}
+        </label>
     </>
 );
 
-const CatSelector = ({category, setCategory}) => (
+const CatSelector = ({ category, setCategory }) => (
     <div className="btn-group">
-    { 
-      Object.values(categories).map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category}/>)
-    }
+        {
+            Object.values(categories).map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
+        }
     </div>
 );
 
@@ -117,37 +117,35 @@ const getItemCat = item => (
 
 
 
-const Listing = ({ listing }) => {
+const Listing = ({ listing, userLocation }) => {
     const [imageUrl, setImageUrl] = useState("");
     useEffect(() => {
-      findImageUrl(listing.imageURL)
-        .then((url) => setImageUrl(url))
-        .catch((err) => console.log(err));
+        findImageUrl(listing.imageURL)
+            .then((url) => setImageUrl(url))
+            .catch((err) => console.log(err));
     }, []);
     return (
-      <div className="card bg-light m-1">
-        <img className="card-img-top" src={imageUrl} alt={listing.title} />
-        <div className="card-body">
-          <h4 className="card-title">{listing.name}</h4>
-          <p className="card-text">{listing.description}</p>
-          <a href="#" className="btn btn-primary">
-            Offer Trade
-          </a>
+        <div className="card bg-light m-1">
+            <img className="card-img-top" src={imageUrl} alt={listing.title} />
+            <div className="card-body">
+                <h4 className="card-title">{listing.name}</h4>
+                <p className="card-text">{listing.description}</p>
+                <TradeButton listing={listing} />
+            </div>
+            <div class="card-footer text-muted">{userToItem(userLocation, listing.Latitude, listing.Longitude)} miles away</div>
         </div>
-        <div className="card-footer text-muted">X.x miles away</div>
-      </div>
     );
-  };
+};
 
 const ListingList = ({ listings, userLocation }) => {
     const [category, setCategory] = useState('Food');
     const catListings = Object.values(listings).filter(item => category === getItemCat(item));
     return (
-    <>
-        <CatSelector category={category} setCategory={setCategory}/>
-        <div className="listing-list">
-            {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} />)}
-        </div>
+        <>
+            <CatSelector category={category} setCategory={setCategory} />
+            <div className="listing-list">
+                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} />)}
+            </div>
         </>
     );
 };
@@ -164,16 +162,16 @@ const App = () => {
     navigator.geolocation.getCurrentPosition((pos) => {
         [location, setLocation] = setLocation(pos);
     },
-    (error) => {
-        console.log(error.message);
-    }); // needs https
+        (error) => {
+            console.log(error.message);
+        }); // needs https
 
     const printloc = (loc) => {
         console.log("lat: " + loc.coords.latitude);
         console.log("long: " + loc.coords.longitude);
     };
 
-    printloc({ 
+    printloc({
         coords: {
             accuracy: 40,
             altitude: null,
@@ -184,14 +182,14 @@ const App = () => {
             speed: null,
         },
         timestamp: Date.now(),
-        }
+    }
     );
 
     return (
-    <div className="container">
-        <Banner title={items.title} />
-        <ListingList listings={listings} userLocation={location} />
-    </div>)
+        <div className="container">
+            <Banner title={items.title} />
+            <ListingList listings={listings} userLocation={location} />
+        </div>)
 };
 
 export default App;
