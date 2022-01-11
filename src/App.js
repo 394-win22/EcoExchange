@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import './App.css';
 import { useCollection } from "./utilities/data";
+import { findImageUrl } from './utilities/firebase';
 
 const items = {
     "title": "EcoExchange",
@@ -49,19 +50,27 @@ const getCourseNumber = course => (
     course.id.slice(1, 4)
 );*/
 
-const Listing = ({ listing }) => (
-  <div className="card bg-light m-1">
-    <img className="card-img-top" src={listing.imageURL} alt={listing.title} />
-    <div className="card-body">
-      <h4 className="card-title">{listing.name}</h4>
-      <p className="card-text">{listing.description}</p>
-      <a href="#" className="btn btn-primary">
-        Offer Trade
-      </a>
-    </div>
-    <div class="card-footer text-muted">X.x miles away</div>
-  </div>
-);
+const Listing = ({ listing }) => {
+    const [imageUrl, setImageUrl] = useState("");
+    useEffect(() => {
+        findImageUrl(listing.imageURL)
+            .then(url => setImageUrl(url))
+            .catch(err => console.log(err));
+    }, []);
+    return (
+        <div className="card bg-light m-1">
+            <img className="card-img-top" src={imageUrl} alt={listing.title} />
+            <div className="card-body">
+                <h4 className="card-title">{listing.name}</h4>
+                <p className="card-text">{listing.description}</p>
+                <a href="#" className="btn btn-primary">
+                    Offer Trade
+                </a>
+            </div>
+            <div className="card-footer text-muted">X.x miles away</div>
+        </div>
+    );
+}
 
 const ListingList = ({ listings }) => (
     <div className="listing-list">

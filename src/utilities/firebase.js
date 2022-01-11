@@ -1,6 +1,6 @@
 import {initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"
-
+import { getFirestore } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDrw4061D-4YgBYXOLtnSK14Oc6hZPtIAw",
@@ -14,3 +14,14 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
+
+const storage = getStorage();
+// Points to the root reference
+const storageRef = ref(storage);
+// Points to 'images'
+const imagesRef = ref(storageRef, 'images');
+
+export const findImageUrl = async (path) => {
+    const url = await getDownloadURL(ref(imagesRef, path));
+    return url;
+}
