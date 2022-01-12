@@ -153,7 +153,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
 const App = () => {
 
     const [location, setLocation] = useState();
-    const [listing, setListing] = useState();
+    const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>

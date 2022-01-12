@@ -11,11 +11,11 @@ export const Popup = ({ listing, setListing }) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <div className="modal-title">{listing.title}</div>
+                        <div className="modal-title">{(listing !== 0)? listing.name : "none"}</div>
                         <button type="button" className="btn-close" aria-label="Close" onClick={() => setListing(0)}></button>
                     </div>
                     <div className="modal-body">
-                        <p>{listing.description}</p>
+                        <p>{(listing !== 0)? listing.description : "none"}</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={() => setListing(0)}>Close</button>
