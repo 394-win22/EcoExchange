@@ -2,20 +2,32 @@ import { React} from 'react';
 import '../App.css';
 
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
-export const Popup = ({listing}) => {
-    return(
-        <div className="Modal">
-            <div className="Modal-body">
-                <div>
-                    <p>{listing.description}</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal">Close</button>
+export const Popup = ({ listing, setListing }) => {
+    const style = {
+        display: (listing!==0)? "block":"none"
+    };
+    return (
+        <div className="modal" tabIndex="-1" style={style}>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <div className="modal-title">{listing.title}</div>
+                        <button type="button" className="btn-close" aria-label="Close" onClick={() => setListing(0)}></button>
+                    </div>
+                    <div className="modal-body">
+                        <p>{listing.description}</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" onClick={() => setListing(0)}>Close</button>
+                        <button type="button" className="btn btn-primary">Trade</button>
+                    </div>
                 </div>
             </div>
-        </div>);
+        </div>)
 };
 
-export const TradeButton = ({ listing }) => (
-    <a href="#" className="btn btn-primary" onClick={() => Popup(listing)}>
+export const TradeButton = ({ listing, setListing }) => (
+    <a href="#" className="btn btn-primary" onClick={() => setListing(listing)}>
             Offer Trade
-      </a>
+    </a>
 );

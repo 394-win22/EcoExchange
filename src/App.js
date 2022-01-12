@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { TradeButton } from "./components/Popup"
+import { TradeButton, Popup } from "./components/Popup"
 import './App.css';
 import { useCollection } from "./utilities/data";
 import { userToItem } from "./utilities/location";
@@ -117,7 +117,7 @@ const getItemCat = item => (
 
 
 
-const Listing = ({ listing, userLocation }) => {
+const Listing = ({ listing, userLocation, setListing }) => {
     const [imageUrl, setImageUrl] = useState("");
     useEffect(() => {
         findImageUrl(listing.imageURL)
@@ -130,21 +130,21 @@ const Listing = ({ listing, userLocation }) => {
             <div className="card-body">
                 <h4 className="card-title">{listing.name}</h4>
                 <p className="card-text">{listing.description}</p>
-                <TradeButton listing={listing} />
+                <TradeButton listing={listing} setListing={setListing}/>
             </div>
             <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
         </div>
     );
 };
 
-const ListingList = ({ listings, userLocation }) => {
+const ListingList = ({ listings, userLocation, setListing }) => {
     const [category, setCategory] = useState('Food');
     const catListings = Object.values(listings).filter(item => category === getItemCat(item));
     return (
         <>
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
-                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} />)}
+                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing}/>)}
             </div>
         </>
     );
@@ -153,7 +153,7 @@ const ListingList = ({ listings, userLocation }) => {
 const App = () => {
 
     const [location, setLocation] = useState();
-
+    const [listing, setListing] = useState();
     const [listings, loading, error] = useCollection('listings');
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>
@@ -188,7 +188,8 @@ const App = () => {
     return (
         <div className="container">
             <Banner title={items.title} />
-            <ListingList listings={listings} userLocation={location} />
+            <ListingList listings={listings} userLocation={location} setListing={setListing} />
+            <Popup listing={listing} setListing={setListing}></Popup>
         </div>)
 };
 
