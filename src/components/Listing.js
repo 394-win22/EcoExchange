@@ -2,7 +2,9 @@ import { React, useState, useEffect } from 'react';
 import { TradeButton, Popup } from "./Popup"
 import { useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
-import { findImageUrl } from '../utilities/firebase'
+import { findImageUrl } from '../utilities/firebase';
+import NavigationBar from './NavigationBar';
+
 
 
 const categories = {
@@ -187,6 +189,7 @@ const ListingsContainer = () => {
     return (
         <div className="container">
             <Banner title={items.title} />
+            <NavigationBar />
             <ListingList listings={listings} userLocation={location} setListing={setListing} />
             <Popup listing={listing} setListing={setListing}></Popup>
         </div>)

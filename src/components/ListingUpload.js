@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { uploadFile } from "../utilities/firebase";
 import TextField from '@mui/material/TextField';
+import NavigationBar from "./NavigationBar";
 
 const ListingUpload = () => {
     const [file, setFile] = useState(null);
@@ -13,6 +14,7 @@ const ListingUpload = () => {
   
     return (
       <div>
+          <NavigationBar/>
           <TextField required label="Name" onChange={(e) => setName(e)} />
           <TextField required  multiline label="Description" onChange={(e) => setDescription(e)} rows={5}/>
           <TextField required label="Category" onChange={(e) => setCategory(e)} />
@@ -27,4 +29,4 @@ const ListingUpload = () => {
     );
   };
 
-export default ListingUpload
+export default ListingUpload;
