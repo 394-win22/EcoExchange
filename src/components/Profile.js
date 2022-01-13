@@ -1,13 +1,17 @@
 import React from "react";
 import NavigationBar from './NavigationBar';
 
+const Banner = ({ title }) => (
+    <h1>{title}</h1>
+);
 
 const Profile = () => {
     return (
-        <div>
+        <div className="container">
+            <Banner title="Profile" />
             <NavigationBar/>
-            <h1>Your Profile</h1>
-        </div>)
+        </div>
+        )
 }
 
 export default Profile;
