@@ -118,7 +118,7 @@ const getItemCat = item => (
 
 
 
-const Listing = ({ listing, userLocation, setListing }) => {
+const Listing = ({ listing, userLocation, setListing, imageUrl, setImgUrl }) => {
     const [imageUrl, setImageUrl] = useState("");
     useEffect(() => {
         findImageUrl(listing.imageURL)
@@ -131,21 +131,21 @@ const Listing = ({ listing, userLocation, setListing }) => {
             <div className="card-body">
                 <h4 className="card-title">{listing.name}</h4>
                 <p className="card-text">{listing.description}</p>
-                <TradeButton listing={listing} setListing={setListing}/>
+                <TradeButton listing={listing} setListing={setListing} imageUrl={imageUrl} setImgUrl={setImgUrl}/>
             </div>
             <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
         </div>
     );
 };
 
-const ListingList = ({ listings, userLocation, setListing }) => {
+const ListingList = ({ listings, userLocation, setListing, imageUrl, setImgUrl }) => {
     const [category, setCategory] = useState('Food');
     const catListings = Object.values(listings).filter(item => category === getItemCat(item));
     return (
         <>
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
-                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing}/>)}
+                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} imageUrl={imageUrl} setImgUrl={setImgUrl}/>)}
             </div>
         </>
     );
@@ -155,6 +155,7 @@ const ListingsContainer = () => {
 
     const [location, setLocation] = useState();
     const [listing, setListing] = useState(0);
+    const [imgUrl, setImgUrl] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>
@@ -190,8 +191,8 @@ const ListingsContainer = () => {
         <div className="container">
             <Banner title={items.title} />
             <NavigationBar />
-            <ListingList listings={listings} userLocation={location} setListing={setListing} />
-            <Popup listing={listing} setListing={setListing}></Popup>
+            <ListingList listings={listings} userLocation={location} setListing={setListing} imageUrl={imgUrl} setImgUrl={setImgUrl}/>
+            <Popup listing={listing} setListing={setListing} imageUrl={imgUrl}}></Popup>
         </div>)
 };
 
