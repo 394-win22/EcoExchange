@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { TradeButton, Popup } from "./Popup"
-import { useCollection } from "../utilities/data";
+import { useUser, useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
 import { findImageUrl } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
@@ -125,6 +125,10 @@ const Listing = ({ listing, userLocation, setListing }) => {
             .then((url) => setImageUrl(url))
             .catch((err) => console.log(err));
     }, [listing.imageURL]);
+    const [user, loading, error] = useUser("users", listing.uid);
+    console.log(user)
+    // if (loading) return <div>Loading</div>;
+    //     if (error) return <div>Error</div>;
     return (
         <div className="card bg-light m-1">
             <img className="card-img-top" src={imageUrl} alt={listing.title} />
