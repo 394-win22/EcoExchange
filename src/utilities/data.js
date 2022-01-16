@@ -38,7 +38,7 @@ export const useUser = (collectionName, userID) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
 
-    const getCollection = useCallback(async (collectionName, userID) => {
+    const getUser = useCallback(async (collectionName, userID) => {
         try {
             const docRef = doc(db, collectionName, userID);
             const docSnap = await getDoc(docRef);
@@ -56,8 +56,8 @@ export const useUser = (collectionName, userID) => {
     }, []);
 
     useEffect(() => {
-        getCollection(collectionName, userID);
-    }, [collectionName, userID, getCollection]);
+        getUser(collectionName, userID);
+    }, [collectionName, userID, getUser]);
 
     return [data, loading, error];
 };

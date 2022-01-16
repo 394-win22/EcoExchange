@@ -126,15 +126,14 @@ const Listing = ({ listing, userLocation, setListing }) => {
             .catch((err) => console.log(err));
     }, [listing.imageURL]);
     const [user, loading, error] = useUser("users", listing.uid);
-    console.log(user)
-    // if (loading) return <div>Loading</div>;
-    //     if (error) return <div>Error</div>;
+    if (error) console.log(error);
     return (
         <div className="card bg-light m-1">
             <img className="card-img-top" src={imageUrl} alt={listing.title} />
             <div className="card-body">
                 <h4 className="card-title">{listing.name}</h4>
-                <p className="card-text">{listing.description}</p>
+                <p className="card-text"><b>Description:</b> {listing.description}</p>
+                {loading || error ? null : <p className="card-text"><b>Looking For:</b> {user.lookingFor}</p>}
                 <TradeButton listing={listing} setListing={setListing}/>
             </div>
             <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
