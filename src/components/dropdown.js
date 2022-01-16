@@ -1,5 +1,5 @@
 //Reference: https://mui.com/components/selects/
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { getItemByUser } from '../utilities/data.js'
@@ -38,14 +38,20 @@ export function Option(props) {
 
 
 export const Dropdown = () => {
-    
-
+    const [data, setData] = useState(null);
+    const fetchDropdownData = useCallback(async () => {
+        const fetchedData = await getItemByUser("listings", dummyUserId);
+        setData(fetchedData);
+    }, [])
+    useEffect(() => {
+        fetchDropdownData();
+    }, [fetchDropdownData]);
+    if (!data) return <div>Loading...</div>
     return (
         <Select labelId="demo-simple-select-label"
         id="demo-simple-select"
             label="Age">
-
-            {getItemByUser("listings", dummyUserId)}
+        {data.map(item => <MenuItem value={item.name}>{item.name}</MenuItem>)}
     </Select>)
     
 }
