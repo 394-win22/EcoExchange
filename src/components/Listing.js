@@ -126,7 +126,6 @@ const Listing = ({ listing, userLocation, setListing }) => {
             .catch((err) => console.log(err));
     }, [listing.imageURL]);
     const [user, loading, error] = useUser("users", listing.uid);
-    if (error) console.log(error);
     return (
         <div className="card bg-light m-1">
             <img className="card-img-top" src={imageUrl} alt={listing.title} />
@@ -154,40 +153,14 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     );
 };
 
-const ListingsContainer = () => {
-
-    const [location, setLocation] = useState();
+const ListingsContainer = ({location}) => {
     const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>
 
 
-    navigator.geolocation.getCurrentPosition((pos) => {
-        setLocation(pos);
-    },
-        (error) => {
-            console.log(error.message);
-        }); // needs https
-
-    const printloc = (loc) => {
-        console.log("lat: " + loc.coords.latitude);
-        console.log("long: " + loc.coords.longitude);
-    };
-
-    printloc({
-        coords: {
-            accuracy: 40,
-            altitude: null,
-            altitudeAccuracy: null,
-            heading: null,
-            latitude: 42.05,
-            longitude: -87.68,
-            speed: null,
-        },
-        timestamp: Date.now(),
-    }
-    );
+     // needs https
 
     return (
         <div className="container">
