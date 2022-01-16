@@ -2,3 +2,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 17rem));
 }
+
+.popup-item {
+    display: flex;
+    flex-direction: row;
+}
