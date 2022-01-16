@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -25,6 +25,8 @@ const storage = getStorage();
 const storageRef = ref(storage);
 // Points to 'images'
 const imagesRef = ref(storageRef, "images");
+
+export const dummyUserId = "OKeNlMlVuhQfMNVh5m7c";
 
 export const findImageUrl = async (path) => {
   const url = await getDownloadURL(ref(imagesRef, path));
@@ -85,3 +87,9 @@ export const uploadFile = async (file) => {
     }
   );
 };
+
+export const uploadListing = async (data) => {
+  const docRef = await addDoc(collection(db, "listings"), data);
+  if (docRef.ok) return true;
+  else console.log(docRef);
+}

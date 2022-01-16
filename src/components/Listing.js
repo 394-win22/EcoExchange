@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { TradeButton, Popup } from "./Popup"
-import { useCollection } from "../utilities/data";
+import { useUser, useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
 import { findImageUrl } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
@@ -125,12 +125,14 @@ const Listing = ({ listing, userLocation, setListing }) => {
             .then((url) => setImageUrl(url))
             .catch((err) => console.log(err));
     }, [listing.imageURL]);
+    const [user, loading, error] = useUser("users", listing.uid);
     return (
         <div className="card bg-light m-1">
             <img className="card-img-top" src={imageUrl} alt={listing.title} />
             <div className="card-body">
                 <h4 className="card-title">{listing.name}</h4>
-                <p className="card-text">{listing.description}</p>
+                <p className="card-text"><b>Description:</b> {listing.description}</p>
+                {loading || error ? null : <p className="card-text"><b>Looking For:</b> {user.lookingFor}</p>}
                 <TradeButton listing={listing} setListing={setListing}/>
             </div>
             <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
@@ -151,40 +153,14 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     );
 };
 
-const ListingsContainer = () => {
-
-    const [location, setLocation] = useState();
+const ListingsContainer = ({location}) => {
     const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>
 
 
-    navigator.geolocation.getCurrentPosition((pos) => {
-        setLocation(pos);
-    },
-        (error) => {
-            console.log(error.message);
-        }); // needs https
-
-    const printloc = (loc) => {
-        console.log("lat: " + loc.coords.latitude);
-        console.log("long: " + loc.coords.longitude);
-    };
-
-    printloc({
-        coords: {
-            accuracy: 40,
-            altitude: null,
-            altitudeAccuracy: null,
-            heading: null,
-            latitude: 42.05,
-            longitude: -87.68,
-            speed: null,
-        },
-        timestamp: Date.now(),
-    }
-    );
+     // needs https
 
     return (
         <div className="container">
