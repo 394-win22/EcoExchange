@@ -2,6 +2,8 @@
 import React from "react";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { getItemByUser } from '../utilities/data.js'
+import {  dummyUserId } from '../utilities/firebase.js'
 /*import {
     DropdownWrapper,
     StyledSelect,
@@ -32,14 +34,18 @@ export function Option(props) {
     );
 }
 */
-export const Dropdown =()=> {
+
+
+
+export const Dropdown = () => {
+    
+
     return (
         <Select labelId="demo-simple-select-label"
         id="demo-simple-select"
-        label="Age">
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+            label="Age">
+
+            {getItemByUser("listings", dummyUserId)}
     </Select>)
     
 }

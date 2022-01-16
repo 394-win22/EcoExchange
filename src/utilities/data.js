@@ -1,7 +1,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { db } from "./firebase";
-import { getDocs, getDoc, collection, doc } from "firebase/firestore"; 
+import MenuItem from '@mui/material/MenuItem';
+import { getDocs, getDoc, collection, doc, query, where  } from "firebase/firestore"; 
 
 export const useCollection = (collectionName) => {
     const [data, setData] = useState();
@@ -32,6 +33,22 @@ export const useCollection = (collectionName) => {
 
     return [data, loading, error];
 };
+
+export const getItemByUser = async(collectionName, userID) => {
+    const itemRef = collection(db, collectionName);
+
+    // Create a query against the collection.
+    const q = query(itemRef, where("uid", "==", userID));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map(item => {
+        return { ...item.data(), id: item.id }
+    });
+    console.log(data)
+    return (
+        <div>
+            {data.map(item => <MenuItem value={item.name}>{item.name}</MenuItem>)}
+        </div>)
+}
 
 export const useUser = (collectionName, userID) => {
     const [data, setData] = useState();
