@@ -3,7 +3,7 @@ import { Dropdown } from './dropdown'
 import '../App.css';
 
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
-export const Popup = ({ listing, setListing, imageUrl }) => {
+export const Popup = ({ listing, setListing }) => {
     const style = {
         display: (listing!==0)? "block":"none"
     };
@@ -19,22 +19,11 @@ export const Popup = ({ listing, setListing, imageUrl }) => {
                         <p>{(listing !== 0) ? listing.description : "none"}</p>
 
                         <div className="popup-item">
-                            <div className="card bg-light m-1">
-                                <img className="card-img-top" src={imageUrl} alt={listing.title} />
-                                <div className="card-body">
-                                    <h4 className="card-title">{listing.name}</h4>
-                                </div>
-                                <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
-                            </div>
+                            
 
+                            <div>My item</div>
                             <div>==></div>
-                            <div className="card bg-light m-1">
-                                <img className="card-img-top" src={imageUrl} alt={listing.title} />
-                                <div className="card-body">
-                                    <h4 className="card-title">{listing.name}</h4>
-                                </div>
-                                <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
-                            </div>
+                            <div>Other Item</div>
                         </div>
                     </div>
                     <div className="modal-footer">
@@ -47,8 +36,8 @@ export const Popup = ({ listing, setListing, imageUrl }) => {
         </div>)
 };
 
-export const TradeButton = ({ listing, setListing, imageUrl, setImgUrl }) => (
-    <a href="#" className="btn btn-primary" onClick={() => setListing(listing)}>
+export const TradeButton = ({ listing, setListing}) => (
+    <a href="#" className="btn btn-primary" onClick={() => setListing(listing) }>
             Offer Trade
     </a>
 );
