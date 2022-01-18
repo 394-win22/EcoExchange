@@ -3,7 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { getItemByUser } from '../utilities/data.js'
-import {  dummyUserId } from '../utilities/firebase.js'
+import { dummyUserId } from '../utilities/firebase.js'
+import { findImageUrl } from '../utilities/firebase';
 /*import {
     DropdownWrapper,
     StyledSelect,
@@ -37,7 +38,7 @@ export function Option(props) {
 
 
 
-export const Dropdown = () => {
+export const Dropdown = ({ setSelected}) => {
     const [data, setData] = useState(null);
     const fetchDropdownData = useCallback(async () => {
         const fetchedData = await getItemByUser("listings", dummyUserId);
@@ -47,11 +48,22 @@ export const Dropdown = () => {
         fetchDropdownData();
     }, [fetchDropdownData]);
     if (!data) return <div>Loading...</div>
+
+    
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setSelected(value)
+    };
+
     return (
         <Select labelId="demo-simple-select-label"
-        id="demo-simple-select"
-            label="Age">
-        {data.map(item => <MenuItem value={item.name}>{item.name}</MenuItem>)}
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChange}>
+        {data.map(item => <MenuItem value={item}>{item.name}</MenuItem>)}
     </Select>)
     
 }
