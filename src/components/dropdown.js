@@ -4,7 +4,6 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { getItemByUser } from '../utilities/data.js'
 import { dummyUserId } from '../utilities/firebase.js'
-import { findImageUrl } from '../utilities/firebase';
 /*import {
     DropdownWrapper,
     StyledSelect,

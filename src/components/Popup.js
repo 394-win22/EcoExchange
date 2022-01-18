@@ -1,8 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { findImageUrl } from '../utilities/firebase';
 import { Dropdown } from './dropdown'
-import { dummyUserId } from '../utilities/firebase.js'
-import { getItemByUser } from '../utilities/data.js'
 import '../App.css';
 
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
@@ -55,7 +53,10 @@ export const Popup = ({ listing, setListing }) => {
                     <div className="modal-footer">
                         <Dropdown setSelected={setSelected}></Dropdown>
                         <button type="button" className="btn btn-secondary" onClick={() => setListing(0)}>Close</button>
-                        <button type="button" className="btn btn-primary">Trade</button>
+                        <button type="button" className="btn btn-primary" onClick={() => {
+                            setListing(0);
+                            setTimeout(() => alert("Trade Sent"), 0);
+                        }}>Offer Trade</button>
                     </div>
                 </div>
             </div>
