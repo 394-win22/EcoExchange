@@ -28,13 +28,14 @@ export const Popup = ({ listing, setListing }) => {
 
   const offerTrade = () => {
     setListing(0);
-    uploadTrade({
+    if (uploadTrade({
         listing1: selected.id,
         listing2: listing.id,
         message: message,
         date: Timestamp.fromMillis(Date.now()),
         status: "PENDING"
-    })
+    })) alert("Trade Sent");
+    else alert("Error Occurred");
 
   };
   return (
@@ -139,7 +140,9 @@ export const Popup = ({ listing, setListing }) => {
 };
 
 export const TradeButton = ({ listing, setListing }) => (
-  <a href="#" className="btn btn-primary" onClick={() => setListing(listing)}>
+  <a href="#" className="btn btn-primary" onClick={() => {
+      setListing(listing);
+  }}>
     Offer Trade
   </a>
 );

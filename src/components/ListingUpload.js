@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { dummyUserId, uploadFile, uploadListing } from "../utilities/firebase";
-import TextField from "@mui/material/TextField";
 import NavigationBar from "./NavigationBar";
 import { GeoPoint, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -79,7 +78,7 @@ const ListingUpload = ({ location }) => {
         </div>
         <div className="form-group my-3">
           <button className="btn btn-success" onClick={() => onSubmit()}>
-            submit
+            Submit
           </button>
         </div>
       </form>
