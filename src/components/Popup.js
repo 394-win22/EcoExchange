@@ -2,6 +2,8 @@ import { React, useState, useEffect } from 'react';
 import { findImageUrl } from '../utilities/firebase';
 import { Dropdown } from './dropdown'
 import '../App.css';
+import arrows from '../images/arrows.png';
+import recycle from '../images/recycle.png';
 
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
 export const Popup = ({ listing, setListing }) => {
@@ -34,17 +36,26 @@ export const Popup = ({ listing, setListing }) => {
 
                         <div className="popup-item">
                             <div className="card bg-light m-1">
-                                <img className="card-img-top" src={imageUrl_select} alt={listing.title} width="100" height="100" />
-                                <div className="card-body">
+                                <img className="card-img-top" style={{maxWidth: "200px",maxHeight: "200px"}} src={imageUrl_select} 
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null;
+                                    currentTarget.src=recycle;
+                                  }} alt={listing.title}/>
+                                <div className="card-body" style={{maxWidth: "200px",maxHeight: "200px"}}>
                                     <h4 className="card-title">{selected.name}</h4>
                                 </div>
                             </div>
-
-                            <div>==></div>
+                            <div>
+                                <img className="swap-arrows" style={{maxWidth: "100px",maxHeight: "100px",marginTop: "100px"}} src={arrows}/>
+                            </div>
 
                             <div className="card bg-light m-1">
-                                <img className="card-img-top" src={imageUrl_target} alt={listing.title} width="100" height="100"/>
-                                <div className="card-body">
+                                <img className="card-img-top" style={{maxWidth: "200px",maxHeight: "200px"}}src={imageUrl_target} 
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null;
+                                    currentTarget.src=recycle;
+                                  }} alt={listing.title}/>
+                                <div className="card-body" style={{maxWidth: "200px",maxHeight: "200px"}}>
                                     <h4 className="card-title">{listing.name}</h4>
                                 </div>
                             </div>

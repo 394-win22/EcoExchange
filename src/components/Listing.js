@@ -128,7 +128,11 @@ const Listing = ({ listing, userLocation, setListing}) => {
     const [user, loading, error] = useUser("users", listing.uid);
     return (
         <div className="card bg-light m-1">
-            <img className="card-img-top" src={imageUrl} alt={listing.title} />
+            <img className="card-img-top" src={imageUrl} 
+                onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; 
+                    currentTarget.src=recycle;
+                }} alt={listing.title}/>
             <div className="card-body">
                 <h4 className="card-title">{listing.name}</h4>
                 <p className="card-text"><b>Description:</b> {listing.description}</p>
