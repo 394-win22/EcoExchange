@@ -4,6 +4,7 @@ import { useUser, useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
 import { findImageUrl } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
+import recycle from "../images/recycle.png";
 
 
 
