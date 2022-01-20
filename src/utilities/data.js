@@ -20,9 +20,9 @@ export const useCollection = (collectionName) => {
             setLoading(false);
             setError(null);
         } catch (e) {
+            setError(e);
             setData(null);
             setLoading(false);
-            setError(e);
         }
     }, []);
 

@@ -95,6 +95,15 @@ export const uploadListing = async (data) => {
   if (docRef.ok) return true;
   else console.log(docRef);
 }
+
+export const uploadTrade = async (data) => {
+  const docRef = await addDoc(collection(db, "trades"), data);
+  if (docRef.ok) return true;
+  else {
+    console.log(docRef);
+    return false;
+  }
+}
 export const signInWithGoogle = () => {
     signInWithPopup(getAuth(app), new GoogleAuthProvider());
 };
