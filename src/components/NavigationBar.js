@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import {Navbar, Container, Nav, NavDropdown} from "react-bootstrap";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import { signInWithGoogle, useUserState, signOut } from "../utilities/firebase.js";
 
+
+const SignInButton = () => (
+    <button className="btn btn-secondary btn-sm"
+        onClick={() => signInWithGoogle()}>
+      Sign In
+    </button>
+  );
+  
 
 export default class NavigationBar extends Component{
 
