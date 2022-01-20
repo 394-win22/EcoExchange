@@ -3,6 +3,7 @@ import { dummyUserId, uploadFile, uploadListing } from "../utilities/firebase";
 import TextField from '@mui/material/TextField';
 import NavigationBar from "./NavigationBar";
 import { GeoPoint, Timestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Banner = ({ title }) => (
   <h1>{title}</h1>
@@ -12,12 +13,14 @@ const ListingUpload = ({location}) => {
     const [file, setFile] = useState(null);
     const [itemName, setItemName] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('');
+    let navigate = useNavigate();
     const onSubmit = () => {
         uploadListing({name: itemName, description, category, 
           imageURL: file.name, date: Timestamp.fromMillis(Date.now()), uid: dummyUserId,
           location: new GeoPoint(location.coords.latitude, location.coords.longitude)});
         uploadFile(file);
+        navigate("/", { replace: true });
     }
 
     return (
