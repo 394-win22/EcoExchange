@@ -6,6 +6,8 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
+import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { useState, useEffect } from 'react';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDrw4061D-4YgBYXOLtnSK14Oc6hZPtIAw",
@@ -93,3 +95,20 @@ export const uploadListing = async (data) => {
   if (docRef.ok) return true;
   else console.log(docRef);
 }
+export const signInWithGoogle = () => {
+    signInWithPopup(getAuth(app), new GoogleAuthProvider());
+};
+
+const firebaseSignOut = () => signOut(getAuth(app));
+
+export { firebaseSignOut as signOut };
+
+export const useUserState = () => {
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        onIdTokenChanged(getAuth(app), setUser);
+    }, []);
+
+    return [user];
+};

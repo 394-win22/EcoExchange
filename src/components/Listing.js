@@ -6,8 +6,6 @@ import { findImageUrl } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
 import recycle from "../images/recycle.png";
 
-
-
 const categories = {
     Food: "Food",
     Clothes: "Clothes",
@@ -95,9 +93,7 @@ function filterCategory(props) {
         </li>
       ))}
 }
-
 const selected =<filterCategory categ = "Food" />;
-
 <button onClick={filterCategory(selected)}>
     Click me
 </button>
