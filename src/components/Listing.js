@@ -5,54 +5,7 @@ import { userToItem } from "../utilities/location";
 import { findImageUrl } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
 import recycle from "../images/recycle.png";
-
-const categories = {
-    Food: "Food",
-    Clothes: "Clothes",
-    Recreation: "Recreation",
-    Electronics: "Electronics",
-    Other: "Other",
-};
-
-const items = {
-    "title": "EcoExchange",
-    "items": {
-        "clothes": {
-            "ListingID": "C101",
-            "name": "Jacket",
-            "uid": "123", /* user id */
-            "Latitude": "0",
-            "Longitude": "0",
-            "imageURL": "https://m.media-amazon.com/images/I/51ylk6F0rfL._AC_UY741_.jpg",
-            "description": "Lightweight forest green jacket, lightly used",
-            "category": categories.Clothes,
-            "date": "1/19/2021",
-        },
-        "food": {
-            "ListingID": "F101",
-            "name": "Apple",
-            "uid": "156",
-            "Latitude": "1",
-            "Longitude": "1",
-            "imageURL": "https://i5.walmartimages.com/asr/7320e63a-de46-4a16-9b8c-526e15219a12_3.e557c1ad9973e1f76f512b34950243a3.jpeg",
-            "description": "Red Apple, mint condition",
-            "category": categories.Food,
-            "date": "1/1/2021",
-        },
-        "recreation": {
-            "ListingID": "R101",
-            "name": "Baseball Bat",
-            "uid": "302",
-            "Latitude": "40",
-            "Longitude": "60",
-            "imageURL": "https://m.media-amazon.com/images/I/31Xc5u3XuDL._AC_.jpg",
-            "description": "Black wooden baseball bat for youth players",
-            "category": categories.Recreation,
-            "date": "1/10/2021",
-        }
-    }
-};
-
+import c from "./categories";
 
 //category buttons
 const CatButton = ({ category, setCategory, checked }) => (
@@ -67,7 +20,7 @@ const CatButton = ({ category, setCategory, checked }) => (
 const CatSelector = ({ category, setCategory }) => (
     <div className="btn-group">
         {
-            Object.values(categories).map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
+            c.map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
         }
     </div>
 );
@@ -103,9 +56,7 @@ const Banner = ({ title }) => (
     <h1>{title}</h1>
 );
 
-const getItemCat = item => (
-    categories[item.category]
-);
+const getItemCat = item => item.category;
 
 /*const getCourseNumber = course => (
     course.id.slice(1, 4)
@@ -165,7 +116,7 @@ const ListingsContainer = ({location}) => {
 
     return (
         <div className="container">
-            <Banner title={items.title} />
+            <Banner title="EcoExchange" />
             <NavigationBar />
             <ListingList listings={listings} userLocation={location} setListing={setListing}/>
             <Popup listing={listing} setListing={setListing}></Popup>

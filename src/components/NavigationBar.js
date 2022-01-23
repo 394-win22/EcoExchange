@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import {Navbar, Container, Nav, NavDropdown} from "react-bootstrap";
+import React from "react";
+import {Navbar, Container, Nav} from "react-bootstrap";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import { signInWithGoogle, useUserState, signOut } from "../utilities/firebase.js";
 
@@ -38,16 +38,16 @@ const NavigationBar = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
-                            <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link>
+                            {/* <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link> */}
                             <Nav.Link as={Link} to={"/add-listing"}>Add Listing</Nav.Link>
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
 
                                 <NavDropdown.Divider />
 
-                            </NavDropdown>
+                            </NavDropdown> */}
                                 {user ? <SignOutButton /> : <SignInButton />}
 
                         </Nav>
