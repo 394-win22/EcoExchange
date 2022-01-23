@@ -36,11 +36,11 @@ export const findImageUrl = async (path) => {
   return url;
 };
 
-export const uploadFile = async (file) => {
+export const uploadFile = async (file, id) => {
   const metadata =  {
     contentType: "image",
   }  
-  const storageRef = ref(storage, "images/" + file.name);
+  const storageRef = ref(storage, "images/" + id + "/" + file.name);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     console.log(file)
   // Listen for state changes, errors, and completion of the upload.

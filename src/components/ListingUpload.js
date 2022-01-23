@@ -22,7 +22,7 @@ const ListingUpload = ({ location }) => {
         name: itemName,
         description,
         category,
-        imageURL: file.name,
+        imageURL: user.uid + "/" + file.name,
         date: Timestamp.fromMillis(Date.now()),
         uid: user.uid,
         location: new GeoPoint(
@@ -30,7 +30,7 @@ const ListingUpload = ({ location }) => {
           location.coords.longitude
         ),
       });
-      uploadFile(file);
+      uploadFile(file, user.uid);
       navigate("/", { replace: true });
     } else {
       alert('Please login before uploading a listing');

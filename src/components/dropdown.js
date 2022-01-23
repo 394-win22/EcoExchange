@@ -47,7 +47,7 @@ export const Dropdown = ({ setSelected}) => {
     useEffect(() => {
         fetchDropdownData();
     }, [fetchDropdownData]);
-    if (!data) return <div>Loading...</div>
+    if (!data) return <div>No Items</div>
 
     
 

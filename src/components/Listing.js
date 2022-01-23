@@ -64,6 +64,7 @@ const getItemUser = item => item.uid;
 
 const Listing = ({ listing, userLocation, setListing}) => {
     const [imageUrl, setImageUrl] = useState("");
+    const [currentUser] = useUserState();
     useEffect(() => {
         findImageUrl(listing.imageURL)
             .then((url) => setImageUrl(url))
@@ -78,7 +79,7 @@ const Listing = ({ listing, userLocation, setListing}) => {
                     currentTarget.src=recycle;
                 }} alt={listing.title}/>
             <div className="card-body">
-                <h4 className="card-title">{listing.name}</h4>
+                <h4 className="card-title">{listing.name}{currentUser && listing.uid === currentUser.uid ? " (Mine)" : ""}</h4>
                 <p className="card-text"><b>Description:</b> {listing.description}</p>
                 {loading || error ? null : <p className="card-text"><b>Looking For:</b> {user.lookingFor}</p>}
                 <TradeButton listing={listing} setListing={setListing}/>
@@ -94,8 +95,10 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     const [catListings, setCatListings] = useState([]);
     useEffect(() => {
         if (user) {
-            setCatListings(Object.values(listings).filter(item => category === getItemCat(item) 
-            && user?.uid !== getItemUser(item)));
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+            //&& user?.uid !== getItemUser(item)));
+        } else {
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item)));
         }
     }, [user, category]);
     return (
