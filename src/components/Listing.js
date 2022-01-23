@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { TradeButton, Popup } from "./Popup"
 import { useUser, useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
-import { findImageUrl } from '../utilities/firebase';
+import { findImageUrl, useUserState } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
 import recycle from "../images/recycle.png";
 import c from "./categories";
@@ -57,14 +57,10 @@ const Banner = ({ title }) => (
 );
 
 const getItemCat = item => item.category;
-
+const getItemUser = item => item.uid;
 /*const getCourseNumber = course => (
     course.id.slice(1, 4)
 );*/
-
-
-
-
 
 const Listing = ({ listing, userLocation, setListing}) => {
     const [imageUrl, setImageUrl] = useState("");
@@ -94,7 +90,14 @@ const Listing = ({ listing, userLocation, setListing}) => {
 
 const ListingList = ({ listings, userLocation, setListing }) => {
     const [category, setCategory] = useState('Food');
-    const catListings = Object.values(listings).filter(item => category === getItemCat(item));
+    const [user] = useUserState();
+    const [catListings, setCatListings] = useState([]);
+    useEffect(() => {
+        if (user) {
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item) 
+            && user?.uid !== getItemUser(item)));
+        }
+    }, [user, category]);
     return (
         <>
             <CatSelector category={category} setCategory={setCategory} />

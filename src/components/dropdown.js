@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { getItemByUser } from '../utilities/data.js'
-import { dummyUserId } from '../utilities/firebase.js'
+import { useUserState } from '../utilities/firebase.js'
 /*import {
     DropdownWrapper,
     StyledSelect,
@@ -39,10 +39,11 @@ export function Option(props) {
 
 export const Dropdown = ({ setSelected}) => {
     const [data, setData] = useState(null);
+    const [user] = useUserState();
     const fetchDropdownData = useCallback(async () => {
-        const fetchedData = await getItemByUser("listings", dummyUserId);
+        const fetchedData = await getItemByUser("listings", user.uid);
         setData(fetchedData);
-    }, [])
+    }, [user])
     useEffect(() => {
         fetchDropdownData();
     }, [fetchDropdownData]);

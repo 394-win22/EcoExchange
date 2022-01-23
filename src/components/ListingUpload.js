@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { dummyUserId, uploadFile, uploadListing } from "../utilities/firebase";
+import { useUserState, uploadFile, uploadListing } from "../utilities/firebase";
 import NavigationBar from "./NavigationBar";
 import { GeoPoint, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -11,23 +11,30 @@ const ListingUpload = ({ location }) => {
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Food");
+  const [user] = useUserState();
+
   let navigate = useNavigate();
-  const onSubmit = () => {
-    uploadListing({
-      name: itemName,
-      description,
-      category,
-      imageURL: file.name,
-      date: Timestamp.fromMillis(Date.now()),
-      uid: dummyUserId,
-      location: new GeoPoint(
-        location.coords.latitude,
-        location.coords.longitude
-      ),
-    });
-    uploadFile(file);
-    navigate("/", { replace: true });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(user) {
+      uploadListing({
+        name: itemName,
+        description,
+        category,
+        imageURL: file.name,
+        date: Timestamp.fromMillis(Date.now()),
+        uid: user.uid,
+        location: new GeoPoint(
+          location.coords.latitude,
+          location.coords.longitude
+        ),
+      });
+      uploadFile(file);
+      navigate("/", { replace: true });
+    } else {
+      alert('Please login before uploading a listing');
+    }
   };
 
   return (
@@ -77,7 +84,7 @@ const ListingUpload = ({ location }) => {
           />
         </div>
         <div className="form-group my-3">
-          <button className="btn btn-success" onClick={() => onSubmit()}>
+          <button className="btn btn-success" onClick={(e) => onSubmit(e)}>
             Submit
           </button>
         </div>

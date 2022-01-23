@@ -1,5 +1,5 @@
 
-const degreesToMiles = 69.169; // number of miles in a degree
+const degreesToMiles = 51; // number of miles in a degree
 
 const userToItem = (userLoc, itemLat, itemLong) => {
     return computeDist(userLoc ? userLoc.coords : null, {latitude: itemLat, longitude: itemLong});

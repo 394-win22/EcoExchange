@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, setDoc } from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { useState, useEffect } from 'react';
+import { GeoPoint } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDrw4061D-4YgBYXOLtnSK14Oc6hZPtIAw",
@@ -104,8 +105,29 @@ export const uploadTrade = async (data) => {
     return false;
   }
 }
-export const signInWithGoogle = () => {
-    signInWithPopup(getAuth(app), new GoogleAuthProvider());
+
+const uploadUser = async (id, data) => {
+  const existingUserRef = doc(db, "users", id)
+  const existingUser = await getDoc(existingUserRef)
+  if (existingUser.exists()) {
+    return;
+  }
+
+  const docRef = await setDoc(existingUserRef, data);
+  if (docRef.ok) return true;
+  else {
+    console.log(docRef);
+    return false;
+  }
+}
+
+export const signInWithGoogle = async () => {
+    const user = await signInWithPopup(getAuth(app), new GoogleAuthProvider());
+    console.log(user)
+    uploadUser(user.user.uid, 
+      {bio: "bio", lookingFor: "class materials for CS 394", 
+      name: user.user.displayName, imageURL: "temp", 
+      location: new GeoPoint(42.055, -87.675), email: user.user.email});
 };
 
 const firebaseSignOut = () => signOut(getAuth(app));
