@@ -5,12 +5,17 @@ import "../App.css";
 import arrows from "../images/arrows.png";
 import recycle from "../images/recycle.png";
 import { Timestamp } from "firebase/firestore";
+import { maxHeight } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
 export const Popup = ({ listing, setListing }) => {
   const style = {
     display: listing !== 0 ? "block" : "none",
+    // maxWidth: '75%',
+    // maxHeight: '90%',
   };
+  const navigate = useNavigate();
   const [imageUrl_target, setImageUrl_target] = useState("");
   const [message, setMessage] = useState("");
   useEffect(() => {
@@ -40,12 +45,12 @@ export const Popup = ({ listing, setListing }) => {
   };
   return (
     <div className="modal" tabIndex="-1" style={style}>
-      <div className="modal-dialog">
+      <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header">
-            <div className="modal-title">
+            <h5 className="modal-title">
               {listing !== 0 ? listing.name : "none"}
-            </div>
+            </h5>
             <button
               type="button"
               className="btn-close"
@@ -53,85 +58,107 @@ export const Popup = ({ listing, setListing }) => {
               onClick={() => setListing(0)}
             ></button>
           </div>
-          <div className="modal-body">
-            <p>{listing !== 0 ? listing.description : "none"}</p>
+          <div className="modal-body justify-content-center">
+            <p class=""><strong>Item Description:</strong> {listing !== 0 ? listing.description : "none"}</p>
 
             <div className="popup-item">
-              <div className="card bg-light m-1">
-                <img
-                  className="card-img-top"
-                  style={{ maxWidth: "200px", maxHeight: "200px" }}
-                  src={imageUrl_select}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null;
-                    currentTarget.src = recycle;
-                  }}
-                  alt={listing.title}
-                />
-                <div
-                  className="card-body"
-                  style={{ maxWidth: "200px", maxHeight: "200px" }}
-                >
-                  <h4 className="card-title">{selected.name}</h4>
-                </div>
-              </div>
-              <div>
-                <img
-                  className="swap-arrows"
-                  style={{
-                    maxWidth: "100px",
-                    maxHeight: "100px",
-                    marginTop: "100px",
-                  }}
-                  src={arrows}
-                />
-              </div>
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="card bg-light col-4">
+                    <img
+                      className="card-img-top"
+                      style={{ maxHeight: "40vh", objectFit: "contain" }}
+                      src={imageUrl_select}
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null;
+                        currentTarget.src = recycle;
+                      }}
+                      alt={listing.title}
+                    />
+                    <div
+                      className="card-body"
+                      style={{ maxWidth: "20em", maxHeight: "4em" }}
+                    >
+                      <h4 className="card-title">{selected.name}</h4>
+                    </div>
+                  </div>
+                  <div className="col-2 d-flex justify-content-center">
+                    <img
+                      className="swap-arrows"
+                      style={{
+                        maxWidth: "6em",
+                        maxHeight: "6em",
+                        margin: "7em 0.5em",
+                      }}
+                      src={arrows}
+                    />
+                  </div>
 
-              <div className="card bg-light m-1">
-                <img
-                  className="card-img-top"
-                  style={{ maxWidth: "200px", maxHeight: "200px" }}
-                  src={imageUrl_target}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null;
-                    currentTarget.src = recycle;
-                  }}
-                  alt={listing.title}
-                />
-                <div
-                  className="card-body"
-                  style={{ maxWidth: "200px", maxHeight: "200px" }}
-                >
-                  <h4 className="card-title">{listing.name}</h4>
+                  <div className="card bg-light  col-4">
+                    <img
+                      className="card-img-top"
+                      style={{ maxHeight: "40vh", objectFit: "contain" }}
+                      src={imageUrl_target}
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null;
+                        currentTarget.src = recycle;
+                      }}
+                      alt={listing.title}
+                    />
+                    <div
+                      className="card-body"
+                      style={{ maxWidth: "20em", maxHeight: "4em" }}
+                    >
+                      <h4 className="card-title">{listing.name}</h4>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="modal-footer">
-            <div className="form-group my-3">
+          <div className="container">
+            <div className="row m-2">
+              <div className="form-group col-5">
                 <label for="Message Input">Message</label>
                 <textarea
-                    className="form-control"
-                    placeholder="Describe your item here"
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows={5}
+                  className="form-control"
+                  placeholder="Add any optional message you want the recipient to receive (contact info, trade detail, etc.)"
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={5}
                 ></textarea>
+              </div>
+              <div className="col-3 d-flex justify-content-center align-items-center">
+                <Dropdown setSelected={setSelected}></Dropdown>
+              </div>
+              <div className="col-4 d-flex justify-content-center align-items-center">
+                <div className="container">
+                  <div className="row mb-1">
+                    <button
+                      type="button"
+                      className="btn btn-secondary col-4"
+                      onClick={() => {setListing(0); setSelected("")}}
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary col-7 offset-1"
+                      onClick={() => offerTrade()}
+                      disabled={!selected}
+                    >
+                      Offer Trade
+                    </button>
+                  </div>
+                  <div className="row">
+                    <button type="button" className="btn btn-success offset-0 col-12 py-0"
+                      onClick = {() => navigate("/add-listing")}
+                      style={{fontSize: 10}}>
+                      Upload Item to Inventory
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Dropdown setSelected={setSelected}></Dropdown>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setListing(0)}
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => offerTrade()}
-            >
-              Offer Trade
-            </button>
           </div>
         </div>
       </div>
