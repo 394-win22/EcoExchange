@@ -93,8 +93,8 @@ export const Popup = ({ listing, setListing }) => {
                     <img
                       className="swap-arrows"
                       style={{
-                        maxWidth: "12vh",
-                        maxHeight: "12vh",
+                        maxWidth: "4rem",
+                        maxHeight: "4rem",
                         margin: "9vh 0.5em",
                       }}
                       src={arrows}
