@@ -117,10 +117,18 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     const [catListings, setCatListings] = useState([]);
     useEffect(() => {
         if (user) {
-            setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
-            //&& user?.uid !== getItemUser(item)));
+          if (category == 'All') {
+            setCatListings(Object.values(listings));
+          } else {
+              setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+              //&& user?.uid !== getItemUser(item)));
+          }
         } else {
-            setCatListings(Object.values(listings).filter(item => category === getItemCat(item)));
+          if (category == 'All') {
+            setCatListings(Object.values(listings));
+          } else {
+              setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+          }
         }
     }, [user, category]);
     return (
