@@ -1,6 +1,7 @@
 //Reference: https://mui.com/components/selects/
 import React, { useCallback, useEffect, useState } from "react";
 import Select from '@mui/material/Select';
+import { FormControl, InputLabel } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import { getItemByUser } from '../utilities/data.js'
 import { useUserState } from '../utilities/firebase.js'
@@ -59,11 +60,22 @@ export const Dropdown = ({ setSelected}) => {
     };
 
     return (
-        <Select labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}>
-        {data.map(item => <MenuItem value={item}>{item.name}</MenuItem>)}
-    </Select>)
+      <FormControl fullWidth="true">
+        <InputLabel id="demo-simple-select-label">Your Offer</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Your Offer"
+          onChange={handleChange}
+        >
+          {data.map((item) => (
+            <MenuItem value={item}>{item.name}</MenuItem>
+          ))}
+        </Select>
+        {data.length === 0 ? <text style={{color: "red", fontSize: 8}}>
+            You must upload a listing before you can trade
+        </text> : null}
+      </FormControl>
+    );
     
 }

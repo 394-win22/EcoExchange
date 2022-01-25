@@ -4,6 +4,7 @@ import NavigationBar from "./NavigationBar";
 import { GeoPoint, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import categories from "./categories";
+import recycle from "../images/recycle.png";
 
 const Banner = ({ title }) => <h1>{title}</h1>;
 
@@ -70,17 +71,40 @@ const ListingUpload = ({ location }) => {
             placeholder="Describe your item here"
             onChange={(e) => setDescription(e.target.value)}
             rows={5}
-          ></textarea>
+                  ></textarea>
+                  <img
+                      className="card-img-top"
+                      style={{ maxWidth: "200px", maxHeight: "200px" }}
+                      onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = recycle;
+                          console.log(file)
+                      }}
+                      src={file == null ? recycle : URL.createObjectURL(file)}
+                  />
         </div>
-        <div className="form-group my-3">
-          <label for="myFile">Upload Image</label>
+              <div className="form-group my-3">
+                  
+                  
+                  <button><label for="upload-by-media">Upload Image</label></button>
+                  <button><label for="upload-by-camera">Take picture</label></button>
+                  
+                  
           <br />
           <input
-            type="file"
-            accept="image/*"
-            id="myFile"
-            name="filename"
+                      type="file"
+                      accept="image/*"
+                      id="upload-by-media"
+                      style={{ display: "none" }}
             onChange={(e) => setFile(e.target.files[0])}
+          />
+          <input
+                      type="file"
+                      accept="image/*"
+                      id="upload-by-camera"
+                      style={{ display: "none" }}
+            onChange={(e) => setFile(e.target.files[0])}
+            capture
           />
         </div>
         <div className="form-group my-3">
