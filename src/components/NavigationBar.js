@@ -5,18 +5,19 @@ import { signInWithGoogle, useUserState, signOut } from "../utilities/firebase.j
 
 
 const SignInButton = () => (
-    <button className="btn btn-secondary btn-sm"
-        onClick={() => signInWithGoogle()}>
-      Sign In
-    </button>
-  );
+  <button
+    className="btn btn-secondary mx-1"
+    onClick={() => signInWithGoogle()}
+  >
+    Sign In
+  </button>
+);
 
 const SignOutButton = () => (
-    <button className="btn btn-secondary btn-sm"
-        onClick={() => signOut()}>
-      Sign Out
-    </button>
-  );
+  <button className="btn btn-secondary mx-1" onClick={() => signOut()}>
+    Sign Out
+  </button>
+);
   
 // const SignInOrOutButton = () => {
 //     const [user] = useUserState();
@@ -37,9 +38,9 @@ const NavigationBar = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
+                            {/*<Nav.Link as={Link} to={"/"}>Home</Nav.Link>*/}
                             {/* <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link> */}
-                            <Nav.Link as={Link} to={"/add-listing"}>Add Listing</Nav.Link>
+                            {user ? <Nav.Link as={Link} to={"/add-listing"}>Add Listing</Nav.Link> : null}
                             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

@@ -118,7 +118,7 @@ export const Popup = ({ listing, setListing }) => {
           </div>
           <div className="container">
             <div className="row m-2">
-              <div className="form-group col-5">
+              <div className="form-group col-md-5">
                 <label for="Message Input">Message</label>
                 <textarea
                   className="form-control"
@@ -127,10 +127,10 @@ export const Popup = ({ listing, setListing }) => {
                   rows={5}
                 ></textarea>
               </div>
-              <div className="col-3 d-flex justify-content-center align-items-center">
+              <div className="col-md-3 d-flex justify-content-center align-items-center">
                 <Dropdown setSelected={setSelected}></Dropdown>
               </div>
-              <div className="col-4 d-flex justify-content-center align-items-center">
+              <div className="col-md-4 d-flex justify-content-center align-items-center">
                 <div className="container">
                   <div className="row mb-1">
                     <button
