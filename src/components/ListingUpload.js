@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import categories from "./categories";
 import recycle from "../images/recycle.png";
 
-const Banner = ({ title }) => <h1>{title}</h1>;
-
 const ListingUpload = ({ location }) => {
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState("");
@@ -40,7 +38,6 @@ const ListingUpload = ({ location }) => {
 
   return (
     <div className="container">
-      <Banner title="Add Listing" />
       <NavigationBar />
 
       <form className="form my-3">

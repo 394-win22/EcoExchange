@@ -1,8 +1,8 @@
 import React from "react";
 import {Navbar, Container, Nav} from "react-bootstrap";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { signInWithGoogle, useUserState, signOut } from "../utilities/firebase.js";
-
+import Alert from 'react-bootstrap/Alert';
 
 const SignInButton = () => (
   <button
@@ -19,27 +19,21 @@ const SignOutButton = () => (
   </button>
 );
   
-// const SignInOrOutButton = () => {
-//     const [user] = useUserState();
-//     return (
-//     <div>
-//         { user ? <SignOutButton /> : <SignInButton />}
-//     );
-// };
 
 const NavigationBar = () => {
     
     const [user] = useUserState();
     return (
         <div>
+
             <Navbar bg="light" expand="lg">
                 <Container>
                     <Navbar.Brand as={Link} to={"/"}>EcoExchange</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            {/*<Nav.Link as={Link} to={"/"}>Home</Nav.Link>*/}
-                            {/* <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link> */}
+                            <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
+                            {user ? <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link> : null}
                             {user ? <Nav.Link as={Link} to={"/add-listing"}>Add Listing</Nav.Link> : null}
                             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -54,6 +48,7 @@ const NavigationBar = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            {!user? <Alert variant={'success'}> Sign in to offer trades and post listings! </Alert> : null}
         </div>
     );
 }
