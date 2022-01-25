@@ -8,6 +8,27 @@ import { Timestamp } from "firebase/firestore";
 import { maxHeight } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
+const ListingCard = (listing, imageUrl_target) => 
+  <div className="col-4 row align-items-center">
+    <div className="col card bg-light  align-items-center">
+      <img
+        className="card-img-top"
+        style={{ maxHeight: "30vh", objectFit: "contain" }}
+        src={imageUrl_target}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null;
+          currentTarget.src = recycle;
+        }}
+        alt={listing.title}
+      />
+      <div
+        className="card-body"
+      >
+        <h6 className="card-title text-center">{listing.name}</h6>
+      </div>
+    </div>
+  </div>
+
 //Reference: https://getbootstrap.com/docs/5.1/components/modal/
 export const Popup = ({ listing, setListing }) => {
   const style = {
@@ -59,59 +80,27 @@ export const Popup = ({ listing, setListing }) => {
             ></button>
           </div>
           <div className="modal-body justify-content-center">
-            <p class=""><strong>Item Description:</strong> {listing !== 0 ? listing.description : "none"}</p>
+            <p class="">
+              <strong>Item Description:</strong>{" "}
+              {listing !== 0 ? listing.description : "none"}
+            </p>
 
             <div className="popup-item">
               <div className="container">
                 <div className="row justify-content-center">
-                  <div className="card bg-light col-4">
-                    <img
-                      className="card-img-top"
-                      style={{ maxHeight: "40vh", objectFit: "contain" }}
-                      src={imageUrl_select}
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null;
-                        currentTarget.src = recycle;
-                      }}
-                      alt={listing.title}
-                    />
-                    <div
-                      className="card-body"
-                      style={{ maxWidth: "20em", maxHeight: "4em" }}
-                    >
-                      <h4 className="card-title">{selected.name}</h4>
-                    </div>
-                  </div>
+                  {ListingCard(selected, imageUrl_select)}
                   <div className="col-2 d-flex justify-content-center">
                     <img
                       className="swap-arrows"
                       style={{
-                        maxWidth: "6em",
-                        maxHeight: "6em",
-                        margin: "7em 0.5em",
+                        maxWidth: "12vh",
+                        maxHeight: "12vh",
+                        margin: "9vh 0.5em",
                       }}
                       src={arrows}
                     />
                   </div>
-
-                  <div className="card bg-light  col-4">
-                    <img
-                      className="card-img-top"
-                      style={{ maxHeight: "40vh", objectFit: "contain" }}
-                      src={imageUrl_target}
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null;
-                        currentTarget.src = recycle;
-                      }}
-                      alt={listing.title}
-                    />
-                    <div
-                      className="card-body"
-                      style={{ maxWidth: "20em", maxHeight: "4em" }}
-                    >
-                      <h4 className="card-title">{listing.name}</h4>
-                    </div>
-                  </div>
+                  {ListingCard(listing, imageUrl_target)}
                 </div>
               </div>
             </div>
@@ -136,7 +125,10 @@ export const Popup = ({ listing, setListing }) => {
                     <button
                       type="button"
                       className="btn btn-secondary col-4"
-                      onClick={() => {setListing(0); setSelected("")}}
+                      onClick={() => {
+                        setListing(0);
+                        setSelected("");
+                      }}
                     >
                       Close
                     </button>
@@ -150,9 +142,12 @@ export const Popup = ({ listing, setListing }) => {
                     </button>
                   </div>
                   <div className="row">
-                    <button type="button" className="btn btn-success offset-0 col-12 py-0"
-                      onClick = {() => navigate("/add-listing")}
-                      style={{fontSize: 10}}>
+                    <button
+                      type="button"
+                      className="btn btn-success offset-0 col-12 py-0"
+                      onClick={() => navigate("/add-listing")}
+                      style={{ fontSize: 10 }}
+                    >
                       Upload Item to Inventory
                     </button>
                   </div>
