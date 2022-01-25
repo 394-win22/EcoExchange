@@ -72,25 +72,47 @@ const Listing = ({ listing, userLocation, setListing}) => {
     }, [listing.imageURL]);
     const [user, loading, error] = useUser("users", listing.uid);
     return (
-        <div className="card bg-light m-1">
-            <img className="card-img-top" src={imageUrl} 
-                onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; 
-                    currentTarget.src=recycle;
-                }} alt={listing.title}/>
-            <div className="card-body">
-                <h4 className="card-title">{listing.name}{currentUser && listing.uid === currentUser.uid ? " (Mine)" : ""}</h4>
-                <p className="card-text"><b>Description:</b> {listing.description}</p>
-                {loading || error ? null : <p className="card-text"><b>Looking For:</b> {user.lookingFor}</p>}
-                <TradeButton listing={listing} setListing={setListing}/>
-            </div>
-            <div className="card-footer text-muted">{userToItem(userLocation, listing.location._lat, listing.location._long)} miles away</div>
+      <div className="card bg-light m-1">
+        <img
+          className="card-img-top"
+          src={imageUrl}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = recycle;
+          }}
+          alt={listing.title}
+        />
+        <div className="card-body">
+          <h4 className="card-title">
+            {listing.name}
+            {currentUser && listing.uid === currentUser.uid ? " (Mine)" : ""}
+          </h4>
+          <p className="card-text">
+            <b>Description:</b> {listing.description}
+          </p>
+          {loading || error ? null : (
+            <p className="card-text">
+              <b>Looking For:</b> {user.lookingFor}
+            </p>
+          )}
+          {currentUser && listing.uid !== currentUser.uid ? (
+            <TradeButton listing={listing} setListing={setListing} />
+          ) : null}
         </div>
+        <div className="card-footer text-muted">
+          {userToItem(
+            userLocation,
+            listing.location._lat,
+            listing.location._long
+          )}{" "}
+          miles away
+        </div>
+      </div>
     );
 };
 
 const ListingList = ({ listings, userLocation, setListing }) => {
-    const [category, setCategory] = useState('Food');
+    const [category, setCategory] = useState('All');
     const [user] = useUserState();
     const [catListings, setCatListings] = useState([]);
     useEffect(() => {
@@ -122,10 +144,9 @@ const ListingsContainer = ({location}) => {
 
     return (
         <div className="container">
-            <Banner title="EcoExchange" />
             <NavigationBar />
             <ListingList listings={listings} userLocation={location} setListing={setListing}/>
-            <Popup listing={listing} setListing={setListing}></Popup>
+            {listing ? <Popup listing={listing} setListing={setListing}></Popup> : null}
         </div>)
 };
 
