@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { findImageUrl, uploadTrade, uploadMessage } from "../utilities/firebase";
 import { Dropdown } from "./dropdown";
 import "../App.css";
@@ -7,8 +7,8 @@ import recycle from "../images/recycle.png";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const ListingCard = (listing, imageUrl_target) => 
-  <div className="col-4 row align-items-center">
+export const ListingCard = (listing, imageUrl_target) => 
+  <div className="col-4 row d-flex justify-content-center align-items-center">
     <div className="col card bg-light  align-items-center">
       <img
         className="card-img-top"
@@ -23,7 +23,7 @@ const ListingCard = (listing, imageUrl_target) =>
       <div
         className="card-body"
       >
-        <h6 className="card-title text-center">{listing.name}</h6>
+        <h6 className="card-title text-center" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
       </div>
     </div>
   </div>

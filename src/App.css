@@ -8,7 +8,12 @@
     flex-direction: row;
 }
 
-.trade-list {
-  display: flex;
-  flex-direction: row;
+.scrollmenu {
+  display: inline-block;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.scrollmenu-element {
+  display: inline-block;
 }
