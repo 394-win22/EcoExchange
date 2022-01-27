@@ -106,7 +106,7 @@ export const uploadTrade = async (data) => {
   }
 }
 
-const uploadUser = async (id, data) => {
+export const uploadUser = async (id, data) => {
   const existingUserRef = doc(db, "users", id)
   const existingUser = await getDoc(existingUserRef)
   if (existingUser.exists()) {
@@ -126,7 +126,7 @@ export const signInWithGoogle = async () => {
     console.log(user)
     uploadUser(user.user.uid, 
       {bio: "bio", lookingFor: "class materials for CS 394", 
-      name: user.user.displayName, imageURL: "temp", 
+      name: user.user.displayName, imageURL: user.user.photoURL, 
       location: new GeoPoint(42.055, -87.675), email: user.user.email});
 };
 

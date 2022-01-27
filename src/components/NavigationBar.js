@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import { signInWithGoogle, useUserState, signOut } from "../utilities/firebase.js";
 import Alert from 'react-bootstrap/Alert';
 
-const SignInButton = () => (
+export const SignInButton = () => (
   <button
     className="btn btn-secondary mx-1"
     onClick={() => signInWithGoogle()}
@@ -13,7 +13,7 @@ const SignInButton = () => (
   </button>
 );
 
-const SignOutButton = () => (
+export const SignOutButton = () => (
   <button className="btn btn-secondary mx-1" onClick={() => signOut()}>
     Sign Out
   </button>
