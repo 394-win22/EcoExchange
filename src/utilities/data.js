@@ -33,6 +33,17 @@ export const useCollection = (collectionName) => {
     return [data, loading, error];
 };
 
+export const getTrades = async(userID, type) => {
+    const userType = type ? "posterID" : "requesterID";
+    const tradeRef = collection(db, "trades");
+    const q = query(tradeRef, where(userType, "==", userID));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map(item => {
+        return { ...item.data(), id: item.id}
+    });
+    return data;
+}
+
 export const getItemByUser = async(collectionName, userID) => {
     const itemRef = collection(db, collectionName);
 
