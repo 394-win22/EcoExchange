@@ -103,11 +103,13 @@ const Profile = () => {
             </Grid>
           </Modal>
           <NavigationBar />
+                  <center class="vertical-center">
           <h1>{data.name}</h1>
           <img src={data.imageURL} alt="" />
           <p>{data.bio}</p>
           <p>{data.lookingFor}</p>
           <Button onClick={() => setOpen(true)}>Edit Profile</Button>
+          </center>
         </div>
       ) : (
         <SignInButton />
