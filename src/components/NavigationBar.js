@@ -25,8 +25,7 @@ const NavigationBar = () => {
     const [user] = useUserState();
     return (
         <div>
-
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" >
                 <Container>
                     <Navbar.Brand as={Link} to={"/"}>EcoExchange</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
