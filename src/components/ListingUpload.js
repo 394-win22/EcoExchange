@@ -40,7 +40,7 @@ const ListingUpload = ({ location }) => {
     <div className="container">
       <NavigationBar />
 
-      <form className="form my-3">
+      <form className="form my-3" onSubmit={e => e.preventDefault()}>
         <div className="form-group my-3">
           <label for="Name Input">Name</label>
           <input
