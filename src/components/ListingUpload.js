@@ -78,6 +78,7 @@ const ListingUpload = ({ location }) => {
                           console.log(file)
                       }}
                       src={file == null ? recycle : URL.createObjectURL(file)}
+                      alt={itemName}
                   />
         </div>
               <div className="form-group my-3">

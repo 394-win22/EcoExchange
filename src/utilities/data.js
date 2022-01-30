@@ -56,6 +56,16 @@ export const getItemByUser = async(collectionName, userID) => {
     return data;
 }
 
+export const getMessages = async (tradeID) => {
+    const itemRef = collection(db, 'messages');
+    const q = query(itemRef, where("tradeID", "==", tradeID));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map(item => {
+        return { ...item.data(), id: item.id }
+    });
+    return data;
+}
+
 export const useUser = (collectionName, userID) => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(true);
