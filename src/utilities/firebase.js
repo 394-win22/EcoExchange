@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection, getDoc, doc, setDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -128,6 +128,15 @@ export const uploadUser = async (id, data) => {
     console.log(docRef);
     return false;
   }
+}
+
+export const changeTradeStatus = async (id, status) => {
+  const existingTradeRef = doc(db, "trades", id)
+  const existingTrade = await getDoc(existingTradeRef)
+  if (!existingTrade.exists()) {
+    return;
+  }
+  await updateDoc(existingTradeRef, {status});
 }
 
 export const signInWithGoogle = async () => {
