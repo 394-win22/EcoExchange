@@ -147,6 +147,7 @@ const ListingsContainer = ({location}) => {
     const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     const [has_location_access, setLocationAccess] = useState(false);
+    const [user] = useUserState();
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>
 
@@ -155,9 +156,7 @@ const ListingsContainer = ({location}) => {
         <div className="container">
             <Banner title="EcoExchange" />
             <Alert variant={'danger'}>
-                Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location.
-                If you're signed in, you can add it manually{' '}
-                <Alert.Link as={Link} to={"/profile"}>here</Alert.Link>.
+                { user ? <span>Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location. If you're signed in, you can add it manually {<Alert.Link as={Link} to={"/profile"}>here</Alert.Link>}</span> : "Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location."}    
             </Alert>
             <NavigationBar />
             <ListingList listings={listings} userLocation={location} setListing={setListing}/>

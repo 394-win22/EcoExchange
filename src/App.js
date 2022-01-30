@@ -4,7 +4,7 @@ import ListingsContainer from './components/Listing';
 import ListingUpload from './components/ListingUpload';
 import Profile from './components/Profile';
 import { Route, Routes } from 'react-router-dom';
-import Alert from 'react-bootstrap/Alert';
+import Trades from './components/Trades';
 
 const App = () => {
     const [location, setLocation] = useState();
@@ -21,6 +21,7 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<ListingsContainer location={location} />} />
                 <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/trades" element={<Trades />} />
                 <Route exact path="/add-listing" element={<ListingUpload location={location}/>} />
             </Routes>
         </div>

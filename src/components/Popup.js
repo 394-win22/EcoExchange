@@ -1,15 +1,14 @@
-import { React, useState, useEffect } from "react";
-import { findImageUrl, uploadTrade } from "../utilities/firebase";
+import React, { useState, useEffect } from "react";
+import { findImageUrl, uploadTrade, uploadMessage } from "../utilities/firebase";
 import { Dropdown } from "./dropdown";
 import "../App.css";
 import arrows from "../images/arrows.png";
 import recycle from "../images/recycle.png";
 import { Timestamp } from "firebase/firestore";
-import { maxHeight } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
-const ListingCard = (listing, imageUrl_target) => 
-  <div className="col-4 row align-items-center">
+export const ListingCard = (listing, imageUrl_target) => 
+  <div className="col-4 row d-flex justify-content-center align-items-center">
     <div className="col card bg-light  align-items-center">
       <img
         className="card-img-top"
@@ -24,7 +23,7 @@ const ListingCard = (listing, imageUrl_target) =>
       <div
         className="card-body"
       >
-        <h6 className="card-title text-center">{listing.name}</h6>
+        <h6 className="card-title text-center" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
       </div>
     </div>
   </div>
@@ -52,17 +51,27 @@ export const Popup = ({ listing, setListing }) => {
       .catch((err) => console.log(err));
   }, [selected.imageURL]);
 
-  const offerTrade = () => {
+  const offerTrade = async () => {
     setListing(0);
-    if (uploadTrade({
-        listing1: selected.id,
-        listing2: listing.id,
-        message: message,
+    const tradeID = await uploadTrade({
+        requesterID: selected.uid,
+        posterID: listing.uid,
+        requesterListingID: selected.id,
+        posterListingID: listing.id,
         date: Timestamp.fromMillis(Date.now()),
         status: "PENDING"
-    })) alert("Trade Sent");
-    else alert("Error Occurred");
-
+    })
+    if (!tradeID) {
+      alert("Error Occurred");
+      return
+    }
+    uploadMessage({
+      tradeID,
+      message,
+      uid: selected.uid,
+      date: Timestamp.fromMillis(Date.now())
+    })
+    alert("Trade Sent");
   };
   return (
     <div className="modal" tabIndex="-1" style={style}>

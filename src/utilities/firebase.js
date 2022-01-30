@@ -99,7 +99,16 @@ export const uploadListing = async (data) => {
 
 export const uploadTrade = async (data) => {
   const docRef = await addDoc(collection(db, "trades"), data);
-  if (docRef.ok) return true;
+  if (docRef.id) return docRef.id;
+  else {
+    console.log(docRef);
+    return false;
+  }
+}
+
+export const uploadMessage = async (data) => {
+  const docRef = await addDoc(collection(db, "messages"), data);
+  if (docRef.id) return docRef.id;
   else {
     console.log(docRef);
     return false;
