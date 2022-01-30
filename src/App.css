@@ -17,3 +17,13 @@
 .scrollmenu-element {
   display: inline-block;
 }
+
+.vertical-center {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-clip: padding-box;
+    margin: auto;
+}

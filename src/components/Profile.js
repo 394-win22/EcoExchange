@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavigationBar from "./NavigationBar";
 import { useUserState, uploadUser } from "../utilities/firebase";
+
 import { useUser } from "../utilities/data";
 import { SignInButton } from "./NavigationBar";
 import Button from "@mui/material/Button";
@@ -9,6 +10,9 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 
 const Profile = () => {
   const [user] = useUserState();
@@ -20,11 +24,11 @@ const Profile = () => {
 
   const handleClose = () => {
     setOpen(false);
-  };
+    };
 
   useEffect(() => {
     if (data) {
-      setName(data.name);
+        setName(data.name);
       setBio(data.bio);
       setLookingFor(data.lookingFor);
     }
@@ -102,12 +106,34 @@ const Profile = () => {
               </Grid>
             </Grid>
           </Modal>
-          <NavigationBar />
-          <h1>{data.name}</h1>
-          <img src={data.imageURL} alt="" />
-          <p>{data.bio}</p>
-          <p>{data.lookingFor}</p>
-          <Button onClick={() => setOpen(true)}>Edit Profile</Button>
+                  <NavigationBar />
+                  <Grid
+                      container
+                      spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justify="center"
+                      style={{ minHeight: '100vh' }}
+                  >
+                      <Grid item xs={3}>
+                          <Card sx={{ maxWidth: 345, maxHeight: 1000 }}>
+                              <CardMedia
+                                  component="img"
+                                  image={data.imageURL}
+                                  alt="../images/recycle.png"
+                              />
+                              <CardContent>
+                                  <Typography gutterBottom variant="h5" component="div">
+                                      {data.name}
+                                  </Typography>
+                                  <Typography variant="body2" color="text.secondary">
+                                      {data.bio}
+                                  </Typography>
+                                  <Button variant="contained" onClick={() => setOpen(true)}>Edit Profile</Button>
+                              </CardContent>
+                          </Card>
+                               </Grid>
+                      </Grid>
         </div>
       ) : (
         <SignInButton />
