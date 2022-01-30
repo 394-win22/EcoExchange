@@ -127,8 +127,14 @@ const Profile = () => {
                                       {data.name}
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
+                                      <strong> Biography: </strong>
                                       {data.bio}
                                   </Typography>
+                                  <Typography variant="body2" color="text.secondary">
+                                      <strong> Looking For: </strong>
+                                          {data.lookingFor}
+                                  </Typography>
+                                  <br/>
                                   <Button variant="contained" onClick={() => setOpen(true)}>Edit Profile</Button>
                               </CardContent>
                           </Card>
