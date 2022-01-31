@@ -130,6 +130,21 @@ export const uploadUser = async (id, data) => {
   }
 }
 
+export const setUser = async (id, data) => {
+    const existingUserRef = doc(db, "users", id)
+    const existingUser = await getDoc(existingUserRef)
+    if (!existingUser.exists()) {
+        return;
+    }
+
+    const docRef = await updateDoc(existingUserRef, data);
+    if (docRef.ok) return true;
+    else {
+        console.log(docRef);
+        return false;
+    }
+}
+
 export const changeTradeStatus = async (id, status) => {
   const existingTradeRef = doc(db, "trades", id)
   const existingTrade = await getDoc(existingTradeRef)

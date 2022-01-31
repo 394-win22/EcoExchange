@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavigationBar from "./NavigationBar";
-import { useUserState, uploadUser } from "../utilities/firebase";
+import { useUserState, uploadUser, setUser } from "../utilities/firebase";
 
 import { useUser } from "../utilities/data";
 import { SignInButton } from "./NavigationBar";
@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { GeoPoint } from "firebase/firestore";
 
 const Profile = () => {
   const [user] = useUserState();
@@ -23,12 +24,13 @@ const Profile = () => {
   const [lookingFor, setLookingFor] = useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+      setOpen(false);
+      
     };
 
   useEffect(() => {
     if (data) {
-        setName(data.name);
+      setName(data.name);
       setBio(data.bio);
       setLookingFor(data.lookingFor);
     }
@@ -36,14 +38,17 @@ const Profile = () => {
 
   const onSubmit = () => {
     console.log(name, bio, lookingFor);
-    uploadUser("testa", {
+    setUser(user.uid, {
       bio: bio,
       lookingFor: lookingFor,
       name: name,
       imageURL: user.photoURL,
-      location: user.location,
+      location: new GeoPoint(42.055, -87.675),
       email: user.email,
     });
+      setName(name);
+      setBio(bio);
+      setLookingFor(lookingFor);
     handleClose();
   };
 
@@ -124,15 +129,15 @@ const Profile = () => {
                               />
                               <CardContent>
                                   <Typography gutterBottom variant="h5" component="div">
-                                      {data.name}
+                                      {name}
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
                                       <strong> Biography: </strong>
-                                      {data.bio}
+                                      {bio}
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
                                       <strong> Looking For: </strong>
-                                          {data.lookingFor}
+                                          {lookingFor}
                                   </Typography>
                                   <br/>
                                   <Button variant="contained" onClick={() => setOpen(true)}>Edit Profile</Button>
