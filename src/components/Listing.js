@@ -94,7 +94,7 @@ const Listing = ({ listing, userLocation, setListing}) => {
           </p>
           {loading || error ? null : (
             <p className="card-text">
-              <b>Looking For:</b> {user.lookingFor}
+              <b>Looking For:</b> {user ? user.lookingFor : null}
             </p>
           )}
           {currentUser && listing.uid !== currentUser.uid ? (
