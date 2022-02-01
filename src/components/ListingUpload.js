@@ -3,14 +3,15 @@ import { useUserState, uploadFile, uploadListing } from "../utilities/firebase";
 import NavigationBar from "./NavigationBar";
 import { GeoPoint, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import categories from "./categories";
+//import categories from "./categories";
+import uploadCategories from "./uploadCategories";
 import recycle from "../images/recycle.png";
 
 const ListingUpload = ({ location }) => {
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Food");
+  const [category, setCategory] = useState("Select...");
   const [user] = useUserState();
 
   let navigate = useNavigate();
@@ -56,7 +57,7 @@ const ListingUpload = ({ location }) => {
             id="Category Select"
             onChange={(e) => setCategory(e.target.value)}
           >
-            {categories.map((category) => (
+            {uploadCategories.map((category) => (
               <option key={category}> {category} </option>
             ))}
           </select>
@@ -106,8 +107,8 @@ const ListingUpload = ({ location }) => {
           />
         </div>
         <div className="form-group my-3">
-          <button className="btn btn-success" onClick={(e) => onSubmit(e)}>
-            Submit
+          <button disabled={category=="Select..." || itemName=="" || file==null} className="btn btn-success" onClick={(e) => onSubmit(e)}>
+            Post!
           </button>
         </div>
       </form>
