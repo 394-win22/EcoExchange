@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from "react";
 import NavigationBar from "./NavigationBar";
-import { useUserState, uploadUser, setUser } from "../utilities/firebase";
+import { useUserState, setUser } from "../utilities/firebase";
 
 import { useUser } from "../utilities/data";
 import { SignInButton } from "./NavigationBar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { GeoPoint } from "firebase/firestore";
+import recycle from "../images/recycle.png";
+import LocationSetter from "../LocationSetter";
 
 const Profile = () => {
   const [user] = useUserState();
   const [data, loading, error] = useUser("users", user?.uid);
   const [open, setOpen] = useState(false);
+  const [locationOpen, setLocationOpen] = useState(false);
   const [name, setName] = useState(false);
   const [bio, setBio] = useState(false);
   const [lookingFor, setLookingFor] = useState(false);
+  const [location, setLocation] = useState((user && user.stringLocation) ?? "");
 
   const handleClose = () => {
       setOpen(false);
       
-    };
+  };
 
   useEffect(() => {
     if (data) {
@@ -45,6 +48,7 @@ const Profile = () => {
       imageURL: user.photoURL,
       location: new GeoPoint(42.055, -87.675),
       email: user.email,
+      stringLocation: location
     });
       setName(name);
       setBio(bio);
@@ -64,6 +68,9 @@ const Profile = () => {
     boxShadow: 24,
     p: 4,
   };
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+
   return (
     <>
       {user && data ? (
@@ -111,6 +118,7 @@ const Profile = () => {
               </Grid>
             </Grid>
           </Modal>
+          <LocationSetter location = {location} setLocation = {setLocation} open={locationOpen} setOpen={setLocationOpen} style = {style} onSubmit={onSubmit}/>
                   <NavigationBar />
                   <Grid
                       container
@@ -124,8 +132,8 @@ const Profile = () => {
                           <Card sx={{ maxWidth: 345, maxHeight: 1000 }}>
                               <CardMedia
                                   component="img"
-                                  image={data.imageURL}
-                                  alt="../images/recycle.png"
+                                  image={data.imageURL ?? recycle}
+                                  alt={data.name}
                               />
                               <CardContent>
                                   <Typography gutterBottom variant="h5" component="div">
@@ -141,6 +149,7 @@ const Profile = () => {
                                   </Typography>
                                   <br/>
                                   <Button variant="contained" onClick={() => setOpen(true)}>Edit Profile</Button>
+                                  <Button variant="contained" onClick={() => setLocationOpen(true)}>Change Location</Button>
                               </CardContent>
                           </Card>
                                </Grid>
