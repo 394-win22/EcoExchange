@@ -8,6 +8,8 @@ import recycle from "../images/recycle.png";
 import c from "./categories";
 import Alert from 'react-bootstrap/Alert';
 import {Link} from "react-router-dom";
+import SearchBar from "./SearchBar"
+
 
 //category buttons
 const CatButton = ({ category, setCategory, checked }) => (
@@ -26,7 +28,22 @@ const CatSelector = ({ category, setCategory }) => (
         }
     </div>
 );
+/*
+const SortByLocation = ({userLocation, setListing, listings}) => (
 
+<button Onclick={setListing(listings.sort((a,b)=>
+userToItem(
+            userLocation,
+            a.location._lat,
+            a.location._long
+          )-
+          userToItem(
+            userLocation,
+            b.location._lat,
+            b.location._long
+          )))}>Sort </button>
+)
+*/
 /*
 <Button 
         border="none"
@@ -135,6 +152,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     }, [user, category]);
     return (
         <>
+            <SearchBar setListings={setListing} listings={listings}/>
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
                 {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
