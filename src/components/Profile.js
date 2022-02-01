@@ -14,7 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { GeoPoint } from "firebase/firestore";
 import recycle from "../images/recycle.png";
-import LocationSetter from "../LocationSetter";
+import LocationSetter from "./LocationSetter";
 
 const Profile = () => {
   const [user] = useUserState();
@@ -24,7 +24,7 @@ const Profile = () => {
   const [name, setName] = useState(false);
   const [bio, setBio] = useState(false);
   const [lookingFor, setLookingFor] = useState(false);
-  const [location, setLocation] = useState((user && user.stringLocation) ?? "");
+  const [location, setLocation] = useState(null);
 
   const handleClose = () => {
       setOpen(false);
@@ -36,6 +36,7 @@ const Profile = () => {
       setName(data.name);
       setBio(data.bio);
       setLookingFor(data.lookingFor);
+      setLocation(data.stringLocation ?? null);
     }
   }, [data]);
 
@@ -48,7 +49,7 @@ const Profile = () => {
       imageURL: user.photoURL,
       location: new GeoPoint(42.055, -87.675),
       email: user.email,
-      stringLocation: location
+      stringLocation: location ? (location.description ? location.description : location) : null
     });
       setName(name);
       setBio(bio);
@@ -138,6 +139,10 @@ const Profile = () => {
                               <CardContent>
                                   <Typography gutterBottom variant="h5" component="div">
                                       {name}
+                                  </Typography>
+                                  <Typography variant="body2" color="text.secondary">
+                                    <strong> Location: </strong> 
+                                    {location ? (location.description ? location.description : location) : "no location set"}
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
                                       <strong> Biography: </strong>

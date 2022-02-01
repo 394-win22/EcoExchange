@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {Modal, Grid, TextField, Button} from "@mui/material";
+import GoogleMaps from "./LocationSetterMUI.js";
+
 
 const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit}) => {
+   
+
     return (
         <Modal
             open={open}
@@ -14,12 +18,7 @@ const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit})
                 <h4>Set your Location</h4>
               </Grid>
               <Grid item xs={8}>
-                <TextField
-                  label="Location"
-                  defaultValue={""}
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
+                <GoogleMaps value = {location} setValue = {setLocation} />
               </Grid>
               <Grid item xs={8}>
                 <Button onClick={() => onSubmit()}>Submit Changes</Button>
