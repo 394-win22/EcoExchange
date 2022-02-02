@@ -21,6 +21,15 @@ const CatButton = ({ category, setCategory, checked }) => (
     </>
 );
 
+const SortButton = ({ sort, setSort }) => (
+    <div>
+    <input type="checkbox" id="sort" name="sort" value="sort" onChange={() => setSort(!sort)} />
+        <label for="sirt">Sort by location</label>
+        </div>
+ )
+
+
+
 const CatSelector = ({ category, setCategory }) => (
     <div className="btn-group">
         {
@@ -28,22 +37,7 @@ const CatSelector = ({ category, setCategory }) => (
         }
     </div>
 );
-/*
-const SortByLocation = ({userLocation, setListing, listings}) => (
 
-<button Onclick={setListing(listings.sort((a,b)=>
-userToItem(
-            userLocation,
-            a.location._lat,
-            a.location._long
-          )-
-          userToItem(
-            userLocation,
-            b.location._lat,
-            b.location._long
-          )))}>Sort </button>
-)
-*/
 /*
 <Button 
         border="none"
@@ -132,27 +126,82 @@ const Listing = ({ listing, userLocation, setListing}) => {
 
 const ListingList = ({ listings, userLocation, setListing }) => {
     const [category, setCategory] = useState('All');
+    const [sort, setSort] = useState(0);
     const [user] = useUserState();
     const [catListings, setCatListings] = useState([]);
     useEffect(() => {
         if (user) {
-          if (category == 'All') {
-            setCatListings(Object.values(listings));
+            if (category == 'All') {
+                if (sort)
+                    setCatListings(Object.values(listings).sort((a, b) =>
+                        userToItem(
+                            userLocation,
+                            a.location._lat,
+                            a.location._long
+                        ) -
+                        userToItem(
+                            userLocation,
+                            b.location._lat,
+                            b.location._long
+                        )));
+                else
+                  setCatListings(Object.values(listings));
           } else {
-              setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+              if(sort)
+                  setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
+                      userToItem(
+                          userLocation,
+                          a.location._lat,
+                          a.location._long
+                      ) -
+                      userToItem(
+                          userLocation,
+                          b.location._lat,
+                          b.location._long
+                      )));
+              else
+                  setCatListings(Object.values(listings).filter(item => category === getItemCat(item)));
               //&& user?.uid !== getItemUser(item)));
           }
         } else {
-          if (category == 'All') {
-            setCatListings(Object.values(listings));
-          } else {
-              setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+    if (category == 'All') {
+              if(sort)
+            setCatListings(Object.values(listings).sort((a, b) =>
+                userToItem(
+                    userLocation,
+                    a.location._lat,
+                    a.location._long
+                ) -
+                userToItem(
+                    userLocation,
+                    b.location._lat,
+                    b.location._long
+                )));
+        else
+                  setCatListings(Object.values(listings));
+    } else {
+        if(sort)
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
+                userToItem(
+                    userLocation,
+                    a.location._lat,
+                    a.location._long
+                ) -
+                userToItem(
+                    userLocation,
+                    b.location._lat,
+                    b.location._long
+                )));
+        else
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
           }
         }
-    }, [user, category]);
+    }, [user, category, sort]);
     return (
         <>
-            <SearchBar setListings={setListing} listings={listings}/>
+            
+            <SearchBar setListings={setCatListings} listings={listings} />
+            <SortButton sort={sort} setSort={setSort} />
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
                 {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
