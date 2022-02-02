@@ -70,7 +70,7 @@ const Banner = ({ title }) => (
 );
 
 const getItemCat = item => item.category;
-const getItemUser = item => item.uid;
+//const getItemUser = item => item.uid;
 /*const getCourseNumber = course => (
     course.id.slice(1, 4)
 );*/
@@ -131,7 +131,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
     const [catListings, setCatListings] = useState([]);
     useEffect(() => {
         if (user) {
-            if (category == 'All') {
+            if (category === 'All') {
                 if (sort)
                     setCatListings(Object.values(listings).sort((a, b) =>
                         userToItem(
@@ -164,7 +164,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
               //&& user?.uid !== getItemUser(item)));
           }
         } else {
-    if (category == 'All') {
+    if (category === 'All') {
               if(sort)
             setCatListings(Object.values(listings).sort((a, b) =>
                 userToItem(
@@ -196,7 +196,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
             setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
           }
         }
-    }, [user, category, sort]);
+    }, [user, category, sort, listings, userLocation]);
     return (
         <>
             
@@ -213,7 +213,7 @@ const ListingList = ({ listings, userLocation, setListing }) => {
 const ListingsContainer = ({location}) => {
     const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
-    const [has_location_access, setLocationAccess] = useState(false);
+    //const [has_location_access, setLocationAccess] = useState(false);
     const [user] = useUserState();
     if (loading) return <div>Loading</div>
     if (error) return <div>Error</div>

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {Modal, Grid, TextField, Button} from "@mui/material";
+import React from "react";
+import {Modal, Grid, Button} from "@mui/material";
 import GoogleMaps from "./LocationSetterMUI.js";
 
 
 const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit}) => {
-   
 
     return (
         <Modal
@@ -21,7 +20,10 @@ const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit})
                 <GoogleMaps value = {location} setValue = {setLocation} />
               </Grid>
               <Grid item xs={8}>
-                <Button onClick={() => onSubmit()}>Submit Changes</Button>
+                <Button onClick={() => {
+                  onSubmit();
+                  setOpen(false);
+                }}>Submit Changes</Button>
               </Grid>
             </Grid>
         </Modal>

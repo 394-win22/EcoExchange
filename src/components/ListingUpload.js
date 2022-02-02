@@ -107,7 +107,7 @@ const ListingUpload = ({ location }) => {
           />
         </div>
         <div className="form-group my-3">
-          <button disabled={category=="Select..." || itemName=="" || file==null} className="btn btn-success" onClick={(e) => onSubmit(e)}>
+          <button disabled={category==="Select..." || itemName==="" || file==null} className="btn btn-success" onClick={(e) => onSubmit(e)}>
             Post!
           </button>
         </div>
