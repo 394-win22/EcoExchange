@@ -26,14 +26,16 @@ function AltSearchBar({ e }) {
 
 //   export default Suggestions
 
-const SearchBar = ({ listings, setListings}) => {
-    const [query, setQuery] = useState(" ")
+const SearchBar = ({ listings, setListings, query, setQuery}) => {
+    
     const [value, setValue] = useState(null)
+    /*
     useEffect(() => {
         //setListings(listings.map(listing => listing.name.includes(query.trim())))
         setListings(listings.filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())))
     }, [query])
-
+    */
+    console.log(query)
     return (
         <>
             <TextField fullWidth onChange={(e) => { setQuery(e.target.value ? e.target.value : "") }} defaultValue={""} value={query} label="Search Listings" />
