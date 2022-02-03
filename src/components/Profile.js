@@ -26,6 +26,7 @@ const Profile = () => {
   const [lookingFor, setLookingFor] = useState(false);
   const [stringLocation, setStringLocation] = useState(null);
   const [locationData, setLocationData] = useState(null);
+  const [latLonData, setLatLonData] = useState(null);
 
   const handleClose = () => {
       setOpen(false);  
@@ -50,9 +51,11 @@ const Profile = () => {
       lookingFor: lookingFor,
       name: name,
       imageURL: user.photoURL,
-      location: new GeoPoint(42.055, -87.675),
       email: user.email
     }
+    if (latLonData) newUserData.location = latLonData;
+    console.log(latLonData);
+
     if (stringLocation) newUserData.stringLocation = stringLocation;
     setUser(user.uid, newUserData);
     setName(name);
@@ -123,7 +126,7 @@ const Profile = () => {
               </Grid>
             </Grid>
           </Modal>
-          <LocationSetter location = {locationData} setLocation = {setLocationData} open={locationOpen} setOpen={setLocationOpen} style = {style} onSubmit={onSubmit}/>
+          <LocationSetter location = {locationData} setLocation = {setLocationData} latLonData = {latLonData} setLatLonData = {setLatLonData} open={locationOpen} setOpen={setLocationOpen} style = {style} onSubmit={onSubmit}/>
                   <NavigationBar />
                   <Grid
                       container

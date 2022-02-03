@@ -3,7 +3,7 @@ import {Modal, Grid, Button} from "@mui/material";
 import GoogleMaps from "./LocationSetterMUI.js";
 
 
-const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit}) => {
+const LocationSetter = ({location, setLocation, latLonData, setLatLonData, open, setOpen, style, onSubmit}) => {
 
     return (
         <Modal
@@ -17,7 +17,7 @@ const LocationSetter = ({location, setLocation, open, setOpen, style, onSubmit})
                 <h4>Set your Location</h4>
               </Grid>
               <Grid item xs={8}>
-                <GoogleMaps value = {location} setValue = {setLocation} />
+                <GoogleMaps value = {location} setValue = {setLocation} latLonValue = {latLonData} setLatLonValue = {setLatLonData} />
               </Grid>
               <Grid item xs={8}>
                 <Button onClick={() => {

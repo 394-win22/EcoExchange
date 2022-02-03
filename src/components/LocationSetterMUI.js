@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+import { GeoPoint } from 'firebase/firestore';
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -23,7 +24,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps({value, setValue}) {
+export default function GoogleMaps({value, setValue, latLonValue, setLatLonValue}) {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
@@ -40,6 +41,30 @@ export default function GoogleMaps({value, setValue}) {
 
     loaded.current = true;
   }
+  let geocoder;
+  if (window.google){
+    geocoder = new window.google.maps.Geocoder();
+  }
+
+
+  const getLatLonData = async (newValue) => {
+    if (newValue){
+      const result = await geocoder.geocode({ placeId: newValue.place_id });
+      console.log(result);
+      console.log(result.results[0].geometry.location.lat());
+
+      setLatLonValue(
+        new GeoPoint(
+          result.results[0].geometry.location.lat(),
+          result.results[0].geometry.location.lng()
+        ),
+
+      )
+
+    }
+
+  }
+    
 
   const fetch = React.useMemo(
     () =>
@@ -105,6 +130,7 @@ export default function GoogleMaps({value, setValue}) {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        getLatLonData(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
