@@ -124,83 +124,14 @@ const ListingList = ({ listings, userLocation, setListing, trueLocation }) => {
     const [catListings, setCatListings] = useState([]);
 
     useEffect(() => {
-        if(user)
-            setCatListings(listings);
-        let filteredListings = catListings.filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase()));
+        let filteredListings = listings.filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase()));
         if(category !== 'All') {
             filteredListings = filteredListings.filter(item => category === getItemCat(item))
         }
         if(user && sortLocation) {
             filteredListings.sort((a, b) => userToItem(userLocation, a.location?._lat, a.location?._long) - userToItem( userLocation, b.location?._lat, b.location?._long))  
         }
-        //setCatListings(filteredListings)
-        
-    //     if (user && userLocation !== undefined) {
-    //         if (category === 'All' ) {
-    //             if (sort)
-    //                 setCatListings(Object.values(listings).sort((a, b) =>
-    //                     userToItem(
-    //                         userLocation,
-    //                         a.location?._lat,
-    //                         a.location?._long
-    //                     ) -
-    //                     userToItem(
-    //                         userLocation,
-    //                         b.location?._lat,
-    //                         b.location?._long
-    //                     )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //             else
-    //                 setCatListings(Object.values(listings).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //       } else {
-    //           if(sort)
-    //               setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
-    //                   userToItem(
-    //                       userLocation,
-    //                       a.location?._lat,
-    //                       a.location?._long
-    //                   ) -
-    //                   userToItem(
-    //                       userLocation,
-    //                       b.location?._lat,
-    //                       b.location?._long
-    //                   )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //           else
-    //               setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //           //&& user?.uid !== getItemUser(item)));
-    //       }
-    //     } else {
-    // if (category === 'All') {
-    //           if(sort && userLocation !== undefined)
-    //         setCatListings(Object.values(listings).sort((a, b) =>
-    //             userToItem(
-    //                 userLocation,
-    //                 a.location?._lat,
-    //                 a.location?._long
-    //             ) -
-    //             userToItem(
-    //                 userLocation,
-    //                 b.location?._lat,
-    //                 b.location?._long
-    //             )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //     else
-    //               setCatListings(Object.values(listings).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    // } else {
-    //     if(sort)
-    //         setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
-    //             userToItem(
-    //                 userLocation,
-    //                 a.location?._lat,
-    //                 a.location?._long
-    //             ) -
-    //             userToItem(
-    //                 userLocation,
-    //                 b.location?._lat,
-    //                 b.location?._long
-    //             )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
-    //     else
-    //         setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase()))); 
-    //       }
-        // }
+        setCatListings(filteredListings)
     }, [user, query,category, sortLocation, listings, userLocation]);
 
     return (
