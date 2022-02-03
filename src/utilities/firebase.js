@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -171,3 +171,21 @@ export const useUserState = () => {
 
     return [user];
 };
+
+export const deleteTrade = async (id) => {
+  const existingTradeRef = doc(db, "trades", id)
+  const existingTrade = await getDoc(existingTradeRef)
+  if (!existingTrade.exists()) {
+    return;
+  }
+  await deleteDoc(existingTradeRef); 
+}
+
+export const changeListingStatus = async (id, status) => {
+  const existingListingRef = doc(db, "listings", id)
+  const existingListing = await getDoc(existingListingRef)
+  if (!existingListing.exists()) {
+    return;
+  }
+  await updateDoc(existingListingRef, {status});
+}

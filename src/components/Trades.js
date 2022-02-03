@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavigationBar from './NavigationBar';
 import { getTrades, useUser, getMessages } from "../utilities/data";
-import { useUserState, findImageUrl, uploadMessage, changeTradeStatus } from "../utilities/firebase";
+import { useUserState, findImageUrl, uploadMessage, changeTradeStatus, deleteTrade } from "../utilities/firebase";
 import "../App.css";
 import { ListingCard } from "./Popup";
 import arrows from "../images/arrows.png";
@@ -18,7 +18,7 @@ const colors = {
     DECLINED: "danger"
 }
 
-const Trade = ({trade, type /*incoming false, outgoing true*/}) => {
+const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
     const [reqListing, loading1, error1] = useUser("listings", trade.requesterListingID);
     const [posListing, loading2, error2] = useUser("listings", trade.posterListingID);
     const [reqImageUrl, setReqImageUrl] = useState("");
@@ -29,12 +29,13 @@ const Trade = ({trade, type /*incoming false, outgoing true*/}) => {
     const [otherUser, loading3, error3] = useUser("users", otherUserId);
     const [msg, setMsg] = useState("");
     const [currStatus, setCurrStatus] = useState(trade.status);
+    const [isDeleted, setIsDeleted] = useState(false);
 
     useEffect(() => {
         if (reqListing) findImageUrl(reqListing.imageURL)
             .then((url) => setReqImageUrl(url))
             .catch((err) => console.log(err));
-        if (posListing)  findImageUrl(posListing.imageURL)
+        if (posListing) findImageUrl(posListing.imageURL)
             .then((url) => setPosImageUrl(url))
             .catch((err) => console.log(err));
         getMessages(trade.id)
@@ -57,14 +58,22 @@ const Trade = ({trade, type /*incoming false, outgoing true*/}) => {
 
     const tradeStatus = async (status) => {
         setCurrStatus(status);
+        if(status === "ACCEPTED") {
+            
+        }
         await changeTradeStatus(trade.id, status);
     }
-    
+
+    const tradeDeleteSubmit = async () => {
+        deleteTrade(trade.id);
+        setIsDeleted(true);
+    }
+
     if (loading1 || loading2 || loading3) return <div>Loading...</div>;
     if (error1 || error2 || error3) return <div>Error</div>;
 
     return (
-        <Accordion>
+        <Accordion sx={isDeleted ? {display: "none"} : {}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -74,58 +83,65 @@ const Trade = ({trade, type /*incoming false, outgoing true*/}) => {
                     {currStatus}
                 </div>
                 <Typography>
-                {type ? <>You offered your {reqListing.name} for {otherUser.name}'s {posListing.name}</> : 
-                     <>{otherUser.name} offered {reqListing.name} for your {posListing.name}</>}
+                    {type ? <>You offered your {reqListing.name} for {otherUser.name}'s {posListing.name}</> :
+                        <>{otherUser.name} offered {reqListing.name} for your {posListing.name}</>}
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <div className="container">
-                    <div className = "row mb-2">
-                    {ListingCard(reqListing, reqImageUrl)}
+                    <div className="row mb-2">
+                        {ListingCard(reqListing, reqImageUrl)}
                         <div className="col-2 d-flex justify-content-center">
                             <img
-                            className="swap-arrows"
-                            style={{
-                                maxWidth: "4rem",
-                                maxHeight: "4rem",
-                                margin: "9vh 0.5em",
-                            }}
-                            src={arrows}
-                            alt="Trade"
+                                className="swap-arrows"
+                                style={{
+                                    maxWidth: "4rem",
+                                    maxHeight: "4rem",
+                                    margin: "9vh 0.5em",
+                                }}
+                                src={arrows}
+                                alt="Trade"
                             />
                         </div>
-                    {ListingCard(posListing, posImageUrl)}
+                        {ListingCard(posListing, posImageUrl)}
                     </div>
                     {messages.map(msg => <div key={msg.id}>{msg.uid === otherUserId ? otherUser.name : "You"}: {msg.message}</div>)}
-                    <div className = "row my-2">
-                        <div className = "col-md-9">
+                    <div className="row my-2">
+                        <div className="col-md-9">
                             <textarea className="form-control" value={msg} onChange={(e) => setMsg(e.target.value)}>
                             </textarea>
                         </div>
-                        <div className = "col-md-3">
+                        <div className="col-md-3">
                             <button className="btn-success btn" onClick={e => sendMessage(e)}>
                                 Send
                             </button>
                         </div>
                     </div>
-                    {type || (currStatus !== "PENDING") ? null : 
-                    <div>
-                        <button className = "btn btn-success me-2" onClick={() => tradeStatus("ACCEPTED")}>
-                            Accept
+                    {type || (currStatus !== "PENDING") ? null :
+                        <div>
+                            <button className="btn btn-success me-2" onClick={() => tradeStatus("ACCEPTED")}>
+                                Accept
                         </button>
-                        <button className = "btn btn-danger" onClick={() => tradeStatus("DECLINED")}>
-                            Decline
+                            <button className="btn btn-danger" onClick={() => tradeStatus("DECLINED")}>
+                                Decline
                         </button>
-                    </div>}
+                        </div>}
+                    {(currStatus === "DECLINED") && (
+                        <div>
+                            <button className="btn btn-danger me-2" onClick={() => tradeDeleteSubmit()}>
+                                Delete Trade
+                            </button>
+                        </div>)}
                 </div>
             </AccordionDetails>
         </Accordion>
-        );
+    );
 }
 
 const Trades = () => {
     const [outgoing, setOutgoing] = useState([]);
     const [incoming, setIncoming] = useState([]);
+    
     const [user] = useUserState();
 
     const fetchTrades = useCallback(async () => {
@@ -141,21 +157,21 @@ const Trades = () => {
     return (
         <div className="container">
             <NavigationBar />
-            <div className = "row">
-                <div className = "col-md-6 p-1">
+            <div className="row">
+                <div className="col-md-6 p-1">
                     <h4>Incoming Trades</h4>
                     <div className="card">
                         {incoming.map(item => <Trade key={item.id} trade={item} type={false} />)}
                     </div>
                 </div>
-                <div className = "col-md-6 p-1">
+                <div className="col-md-6 p-1">
                     <h4>Outgoing Trades</h4>
                     <div className="card">
                         {outgoing.map(item => <Trade key={item.id} trade={item} type={true} />)}
                     </div>
                 </div>
             </div>
-       </div>
+        </div>
     )
 }
 
