@@ -125,6 +125,7 @@ const Listing = ({ listing, userLocation, setListing}) => {
 };
 
 const ListingList = ({ listings, userLocation, setListing }) => {
+    const [query, setQuery] = useState(" ")
     const [category, setCategory] = useState('All');
     const [sort, setSort] = useState(0);
     const [user] = useUserState();
@@ -143,9 +144,9 @@ const ListingList = ({ listings, userLocation, setListing }) => {
                             userLocation,
                             b.location._lat,
                             b.location._long
-                        )));
+                        )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
                 else
-                  setCatListings(Object.values(listings));
+                    setCatListings(Object.values(listings).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
           } else {
               if(sort)
                   setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
@@ -158,9 +159,9 @@ const ListingList = ({ listings, userLocation, setListing }) => {
                           userLocation,
                           b.location._lat,
                           b.location._long
-                      )));
+                      )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
               else
-                  setCatListings(Object.values(listings).filter(item => category === getItemCat(item)));
+                  setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
               //&& user?.uid !== getItemUser(item)));
           }
         } else {
@@ -176,9 +177,9 @@ const ListingList = ({ listings, userLocation, setListing }) => {
                     userLocation,
                     b.location._lat,
                     b.location._long
-                )));
+                )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
         else
-                  setCatListings(Object.values(listings));
+                  setCatListings(Object.values(listings).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
     } else {
         if(sort)
             setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).sort((a, b) =>
@@ -191,16 +192,16 @@ const ListingList = ({ listings, userLocation, setListing }) => {
                     userLocation,
                     b.location._lat,
                     b.location._long
-                )));
+                )).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase())));
         else
-            setCatListings(Object.values(listings).filter(item => category === getItemCat(item))); 
+            setCatListings(Object.values(listings).filter(item => category === getItemCat(item)).filter(listing => listing.name.toLowerCase().includes(query.trim().toLowerCase()))); 
           }
         }
-    }, [user, category, sort, listings, userLocation]);
+    }, [user, query,category, sort, listings, userLocation]);
     return (
         <>
             
-            <SearchBar setListings={setCatListings} listings={listings} />
+            <SearchBar setListings={setCatListings} listings={listings} query={query} setQuery={setQuery}/>
             <SortButton sort={sort} setSort={setSort} />
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
