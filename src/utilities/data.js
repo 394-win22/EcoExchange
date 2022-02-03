@@ -56,6 +56,13 @@ export const getItemByUser = async(collectionName, userID) => {
     return data;
 }
 
+export const getItemByID = async(collectionName, userID) => {
+    const docRef = doc(db, collectionName, userID);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return data;
+}
+
 /*
 export const getItemBySearch = async(collectionName, target) => {
     const itemRef = collection(db, collectionName);

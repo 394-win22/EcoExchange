@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { TradeButton, Popup } from "./Popup"
-import { useUser, useCollection } from "../utilities/data";
+import { useCollection } from "../utilities/data";
 import { userToItem } from "../utilities/location";
 import { findImageUrl, useUserState } from '../utilities/firebase';
 import NavigationBar from './NavigationBar';
@@ -9,6 +9,7 @@ import c from "./categories";
 import Alert from 'react-bootstrap/Alert';
 import {Link} from "react-router-dom";
 import SearchBar from "./SearchBar"
+import { getItemByID } from '../utilities/data';
 
 
 //category buttons
@@ -23,9 +24,9 @@ const CatButton = ({ category, setCategory, checked }) => (
 
 const SortButton = ({ sort, setSort }) => (
     <div>
-    <input type="checkbox" id="sort" name="sort" value="sort" onChange={() => setSort(!sort)} />
+        <input className = "me-2" type="checkbox" id="sort" name="sort" value="sort" onChange={() => setSort(!sort)} />
         <label for="sirt">Sort by location</label>
-        </div>
+    </div>
  )
 
 
@@ -75,20 +76,13 @@ const getItemCat = item => item.category;
     course.id.slice(1, 4)
 );*/
 
-const Listing = ({ listing, userLocation, setListing}) => {
-    const [imageUrl, setImageUrl] = useState("");
+const Listing = ({ listing, userLocation, setListing, trueLocation}) => {
     const [currentUser] = useUserState();
-    useEffect(() => {
-        findImageUrl(listing.imageURL)
-            .then((url) => setImageUrl(url))
-            .catch((err) => console.log(err));
-    }, [listing.imageURL]);
-    const [user, loading, error] = useUser("users", listing.uid);
     return (
       <div className="card bg-light m-1">
         <img
           className="card-img-top"
-          src={imageUrl}
+          src={listing.image}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
             currentTarget.src = recycle;
@@ -103,11 +97,9 @@ const Listing = ({ listing, userLocation, setListing}) => {
           <p className="card-text">
             <b>Description:</b> {listing.description}
           </p>
-          {loading || error ? null : (
-            <p className="card-text">
-              <b>Looking For:</b> {user ? user.lookingFor : null}
-            </p>
-          )}
+        <p className="card-text">
+            <b>Looking For:</b> {listing.lookingFor}
+        </p>
           {currentUser && listing.uid !== currentUser.uid ? (
             <TradeButton listing={listing} setListing={setListing} />
           ) : null}
@@ -118,13 +110,13 @@ const Listing = ({ listing, userLocation, setListing}) => {
             listing.location._lat,
             listing.location._long
           )}{" "}
-          miles away
+          {trueLocation ? "miles away" : "from home"}
         </div>
       </div>
     );
 };
 
-const ListingList = ({ listings, userLocation, setListing }) => {
+const ListingList = ({ listings, userLocation, setListing, trueLocation }) => {
     const [query, setQuery] = useState(" ")
     const [category, setCategory] = useState('All');
     const [sort, setSort] = useState(0);
@@ -205,18 +197,32 @@ const ListingList = ({ listings, userLocation, setListing }) => {
             <SortButton sort={sort} setSort={setSort} />
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list">
-                {catListings.map(listing => <Listing key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
+                {catListings.map(listing => <Listing trueLocation = {trueLocation} key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
             </div>
         </>
     );
 };
 
-const ListingsContainer = ({location}) => {
+const ListingsContainer = ({location, trueLocation}) => {
     const [listing, setListing] = useState(0);
     const [listings, loading, error] = useCollection('listings');
     //const [has_location_access, setLocationAccess] = useState(false);
     const [user] = useUserState();
-    if (loading) return <div>Loading</div>
+    const [loading2, setLoading2] = useState(true);
+
+    useEffect(() => {
+        if (listings) {
+            Promise.all(listings.map(async (item, ind) => {
+                const user = await getItemByID("users", item.uid);
+                const image = await findImageUrl(item.imageURL);
+                listings[ind].location = user.location;
+                listings[ind].lookingFor = user.lookingFor;
+                listings[ind].image = image;
+            })).then(() => setLoading2(false));
+        }
+    }, [listings]);
+
+    if (loading || loading2) return <div>Loading</div>
     if (error) return <div>Error</div>
 
      // needs https
@@ -234,7 +240,7 @@ const ListingsContainer = ({location}) => {
     return (
         <div className="container">
             <NavigationBar />
-            <ListingList listings={listings} userLocation={location} setListing={setListing}/>
+            <ListingList trueLocation = {trueLocation} listings={listings} userLocation={location} setListing={setListing}/>
             {listing ? <Popup listing={listing} setListing={setListing}></Popup> : null}
         </div>)
 };

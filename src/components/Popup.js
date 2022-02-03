@@ -36,13 +36,13 @@ export const Popup = ({ listing, setListing }) => {
     // maxHeight: '90%',
   };
   const navigate = useNavigate();
-  const [imageUrl_target, setImageUrl_target] = useState("");
+  //const [imageUrl_target, setImageUrl_target] = useState("");
   const [message, setMessage] = useState("");
-  useEffect(() => {
-    findImageUrl(listing.imageURL)
-      .then((url) => setImageUrl_target(url))
-      .catch((err) => console.log(err));
-  }, [listing.imageURL]);
+  // useEffect(() => {
+  //   findImageUrl(listing.imageURL)
+  //     .then((url) => setImageUrl_target(url))
+  //     .catch((err) => console.log(err));
+  // }, [listing.imageURL]);
   const [selected, setSelected] = useState("");
   const [imageUrl_select, setImageUrl_select] = useState("");
   useEffect(() => {
@@ -110,7 +110,7 @@ export const Popup = ({ listing, setListing }) => {
                       alt="Trade"
                     />
                   </div>
-                  {ListingCard(listing, imageUrl_target)}
+                  {ListingCard(listing, listing.image)}
                 </div>
               </div>
             </div>
