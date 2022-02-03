@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useUserState, uploadFile, uploadListing } from "../utilities/firebase";
 import NavigationBar from "./NavigationBar";
-import { GeoPoint, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 //import categories from "./categories";
 import uploadCategories from "./uploadCategories";
 import recycle from "../images/recycle.png";
 
-const ListingUpload = ({ location }) => {
+const ListingUpload = ({ }) => {
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
@@ -25,10 +25,6 @@ const ListingUpload = ({ location }) => {
         imageURL: user.uid + "/" + file.name,
         date: Timestamp.fromMillis(Date.now()),
         uid: user.uid,
-        location: new GeoPoint(
-          location.coords.latitude,
-          location.coords.longitude
-        ),
       });
       uploadFile(file, user.uid);
       navigate("/", { replace: true });
@@ -85,8 +81,8 @@ const ListingUpload = ({ location }) => {
               <div className="form-group my-3">
                   
                   
-                  <button><label for="upload-by-media">Upload Image</label></button>
-                  <button><label for="upload-by-camera">Take picture</label></button>
+                  <button className = "btn btn-primary me-2"><label for="upload-by-media">Upload Image</label></button>
+                  <button className = "btn btn-primary"><label for="upload-by-camera">Take picture</label></button>
                   
                   
           <br />

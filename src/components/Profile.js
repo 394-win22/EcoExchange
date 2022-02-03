@@ -12,7 +12,6 @@ import Grid from "@mui/material/Grid";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { GeoPoint } from "firebase/firestore";
 import recycle from "../images/recycle.png";
 import LocationSetter from "./LocationSetter";
 
