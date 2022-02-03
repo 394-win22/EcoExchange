@@ -137,12 +137,7 @@ export const setUser = async (id, data) => {
         return;
     }
 
-    const docRef = await updateDoc(existingUserRef, data);
-    if (docRef.ok) return true;
-    else {
-        console.log(docRef);
-        return false;
-    }
+    await updateDoc(existingUserRef, data);
 }
 
 export const changeTradeStatus = async (id, status) => {

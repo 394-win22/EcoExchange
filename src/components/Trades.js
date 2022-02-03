@@ -40,7 +40,7 @@ const Trade = ({trade, type /*incoming false, outgoing true*/}) => {
         getMessages(trade.id)
             .then((msgs) => setMessages(msgs))
             .catch((err) => console.log(err));
-    }, [reqListing, posListing]);
+    }, [reqListing, posListing, trade.id]);
 
     const sendMessage = (e) => {
         e.preventDefault();

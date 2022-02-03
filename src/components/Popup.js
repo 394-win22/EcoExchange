@@ -107,6 +107,7 @@ export const Popup = ({ listing, setListing }) => {
                         margin: "9vh 0.5em",
                       }}
                       src={arrows}
+                      alt="Trade"
                     />
                   </div>
                   {ListingCard(listing, imageUrl_target)}

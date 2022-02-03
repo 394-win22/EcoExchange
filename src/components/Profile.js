@@ -24,11 +24,11 @@ const Profile = () => {
   const [name, setName] = useState(false);
   const [bio, setBio] = useState(false);
   const [lookingFor, setLookingFor] = useState(false);
-  const [location, setLocation] = useState(null);
+  const [stringLocation, setStringLocation] = useState(null);
+  const [locationData, setLocationData] = useState(null);
 
   const handleClose = () => {
-      setOpen(false);
-      
+      setOpen(false);  
   };
 
   useEffect(() => {
@@ -36,24 +36,28 @@ const Profile = () => {
       setName(data.name);
       setBio(data.bio);
       setLookingFor(data.lookingFor);
-      setLocation(data.stringLocation ?? null);
+      setStringLocation(data.stringLocation ?? null);
     }
   }, [data]);
 
-  const onSubmit = () => {
-    console.log(name, bio, lookingFor);
-    setUser(user.uid, {
+  useEffect(() => {
+    if (locationData) setStringLocation(locationData.description);
+  }, [locationData])
+
+  const onSubmit = async () => {
+    const newUserData = {
       bio: bio,
       lookingFor: lookingFor,
       name: name,
       imageURL: user.photoURL,
       location: new GeoPoint(42.055, -87.675),
-      email: user.email,
-      stringLocation: location ? (location.description ? location.description : location) : null
-    });
-      setName(name);
-      setBio(bio);
-      setLookingFor(lookingFor);
+      email: user.email
+    }
+    if (stringLocation) newUserData.stringLocation = stringLocation;
+    setUser(user.uid, newUserData);
+    setName(name);
+    setBio(bio);
+    setLookingFor(lookingFor);
     handleClose();
   };
 
@@ -119,7 +123,7 @@ const Profile = () => {
               </Grid>
             </Grid>
           </Modal>
-          <LocationSetter location = {location} setLocation = {setLocation} open={locationOpen} setOpen={setLocationOpen} style = {style} onSubmit={onSubmit}/>
+          <LocationSetter location = {locationData} setLocation = {setLocationData} open={locationOpen} setOpen={setLocationOpen} style = {style} onSubmit={onSubmit}/>
                   <NavigationBar />
                   <Grid
                       container
@@ -142,7 +146,7 @@ const Profile = () => {
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
                                     <strong> Location: </strong> 
-                                    {location ? (location.description ? location.description : location) : "no location set"}
+                                    {stringLocation ?? "no location set"}
                                   </Typography>
                                   <Typography variant="body2" color="text.secondary">
                                       <strong> Biography: </strong>
