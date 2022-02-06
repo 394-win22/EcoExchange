@@ -80,7 +80,7 @@ const getItemCat = item => item.category;
 const Listing = ({ listing, userLocation, setListing, trueLocation}) => {
     const [currentUser] = useUserState();
     return (
-      <div className="card bg-light m-1">
+      <div className="card bg-light m-1" style={{display: listing.isActive !== undefined && listing.isActive === false ? "none" : ""}}>
         <img
           className="card-img-top"
           src={listing.image}
