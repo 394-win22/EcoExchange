@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import NavigationBar from './NavigationBar';
 import { getTrades, useUser, getMessages } from "../utilities/data";
-import { useUserState, findImageUrl, uploadMessage, changeTradeStatus, deleteTrade } from "../utilities/firebase";
+import { useUserState, findImageUrl, uploadMessage, changeTradeStatus, deleteTrade, changeListingStatus } from "../utilities/firebase";
 import "../App.css";
 import { ListingCard } from "./Popup";
 import arrows from "../images/arrows.png";
@@ -59,7 +59,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
     const tradeStatus = async (status) => {
         setCurrStatus(status);
         if(status === "ACCEPTED") {
-            
+            tradeAcceptSubmit();
         }
         await changeTradeStatus(trade.id, status);
     }
@@ -67,6 +67,12 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
     const tradeDeleteSubmit = async () => {
         deleteTrade(trade.id);
         setIsDeleted(true);
+    }
+
+    const tradeAcceptSubmit = async () => {
+        changeListingStatus(trade.requesterListingID, false);
+        changeListingStatus(trade.posterListingID, false);
+        
     }
 
     if (loading1 || loading2 || loading3) return <div>Loading...</div>;
