@@ -18,7 +18,7 @@ const colors = {
     DECLINED: "danger"
 }
 
-const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
+const Trade = ({ trade, type /*incoming false, outgoing true*/, inComingTrades, outGoingTrades }) => {
     const [reqListing, loading1, error1] = useUser("listings", trade.requesterListingID);
     const [posListing, loading2, error2] = useUser("listings", trade.posterListingID);
     const [reqImageUrl, setReqImageUrl] = useState("");
@@ -58,7 +58,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
 
     const tradeStatus = async (status) => {
         setCurrStatus(status);
-        if(status === "ACCEPTED") {
+        if (status === "ACCEPTED") {
             tradeAcceptSubmit();
         }
         await changeTradeStatus(trade.id, status);
@@ -70,16 +70,17 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
     }
 
     const tradeAcceptSubmit = async () => {
-        changeListingStatus(trade.requesterListingID, false);
-        changeListingStatus(trade.posterListingID, false);
-        
+        await changeListingStatus(trade.requesterListingID, false);
+        await changeListingStatus(trade.posterListingID, false);
+        inComingTrades.forEach(t => { if (t.id !== trade.id && t.requesterListingID === trade.requesterListingID) changeTradeStatus(t.id, "DECLINED") })
+        outGoingTrades.forEach(t => { if (t.id !== trade.id && t.posterListingID === trade.posterListingID) changeTradeStatus(t.id, "DECLINED") })
     }
 
     if (loading1 || loading2 || loading3) return <div>Loading...</div>;
     if (error1 || error2 || error3) return <div>Error</div>;
 
     return (
-        <Accordion sx={isDeleted ? {display: "none"} : {}}>
+        <Accordion sx={isDeleted ? { display: "none" } : {}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -127,10 +128,10 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
                         <div>
                             <button className="btn btn-success me-2" onClick={() => tradeStatus("ACCEPTED")}>
                                 Accept
-                        </button>
+                            </button>
                             <button className="btn btn-danger" onClick={() => tradeStatus("DECLINED")}>
                                 Decline
-                        </button>
+                            </button>
                         </div>}
                     {(currStatus === "DECLINED") && (
                         <div>
@@ -147,7 +148,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
 const Trades = () => {
     const [outgoing, setOutgoing] = useState([]);
     const [incoming, setIncoming] = useState([]);
-    
+
     const [user] = useUserState();
 
     const fetchTrades = useCallback(async () => {
@@ -167,13 +168,13 @@ const Trades = () => {
                 <div className="col-md-6 p-1">
                     <h4>Incoming Trades</h4>
                     <div className="card">
-                        {incoming.map(item => <Trade key={item.id} trade={item} type={false} />)}
+                        {incoming.map(item => <Trade key={item.id} trade={item} type={false} incomingTrades={incoming} outgoingTrades={outgoing} />)}
                     </div>
                 </div>
                 <div className="col-md-6 p-1">
                     <h4>Outgoing Trades</h4>
                     <div className="card">
-                        {outgoing.map(item => <Trade key={item.id} trade={item} type={true} />)}
+                        {outgoing.map(item => <Trade key={item.id} trade={item} type={true} incomingTrades={incoming} outgoingTrades={outgoing} />)}
                     </div>
                 </div>
             </div>
