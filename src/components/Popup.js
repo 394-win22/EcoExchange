@@ -12,7 +12,7 @@ export const ListingCard = (listing, imageUrl_target) =>
     <div className="col card bg-light align-items-center">
       <img
         className="card-img-top"
-        style={{ maxHeight: "30vh", objectFit: "contain" }}
+        style={{ maxHeight: "23vh", objectFit: "contain" }}
         src={imageUrl_target}
         onError={({ currentTarget }) => {
           currentTarget.onerror = null;
@@ -23,7 +23,7 @@ export const ListingCard = (listing, imageUrl_target) =>
       <div
         className="card-body"
       >
-        <h6 className="text-center" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
+        <h6 className="text-center my-0" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ export const Popup = ({ listing, setListing }) => {
   const style = {
     display: listing !== 0 ? "block" : "none",
     // maxWidth: '75%',
-    // maxHeight: '90%',
+    // maxHeight: '100vh',
   };
   const navigate = useNavigate();
   //const [imageUrl_target, setImageUrl_target] = useState("");
@@ -102,8 +102,9 @@ export const Popup = ({ listing, setListing }) => {
                     <img
                       className="swap-arrows"
                       style={{
-                        maxWidth: "10vw",
-                        maxHeight: "10vw",
+                        width: "100%",
+                        // maxWidth: "4em",
+                        // maxHeight: "10vw",
                       }}
                       src={arrows}
                       alt="Trade"
@@ -122,7 +123,7 @@ export const Popup = ({ listing, setListing }) => {
                   className="form-control"
                   placeholder="Add any optional message you want the recipient to receive (contact info, trade detail, etc.)"
                   onChange={(e) => setMessage(e.target.value)}
-                  rows={5}
+                  rows={4}
                 ></textarea>
               </div>
               <div className="col-md-3 d-flex justify-content-center align-items-center my-2">
@@ -143,7 +144,7 @@ export const Popup = ({ listing, setListing }) => {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-primary col-7 offset-1"
+                      className="btn btn-success col-7 offset-1"
                       onClick={() => offerTrade()}
                       disabled={!selected}
                     >
@@ -153,9 +154,9 @@ export const Popup = ({ listing, setListing }) => {
                   <div className="row">
                     <button
                       type="button"
-                      className="btn btn-success offset-0 col-12 py-2"
+                      className="btn btn-primary offset-0 col-12"
                       onClick={() => navigate("/add-listing")}
-                      style={{ fontSize: 12 }}
+                      // style={{ fontSize: 12 }}
                     >
                       Upload Item to Inventory
                     </button>

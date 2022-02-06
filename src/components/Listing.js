@@ -26,7 +26,7 @@ const CatButton = ({ category, setCategory, checked }) => (
 const SortButton = ({ sort, setSort }) => (
     <div>
         <input className = "me-2" type="checkbox" id="sort" name="sort" value="sort" onChange={() => setSort(!sort)} />
-        <label for="sirt">Sort by location</label>
+        <label for="sort">Sort by location</label>
     </div>
  )
 
@@ -141,7 +141,7 @@ const ListingList = ({ listings, userLocation, setListing, trueLocation }) => {
             <SearchBar setListings={setCatListings} listings={listings} query={query} setQuery={setQuery}/>
             <SortButton sort={sortLocation} setSort={setSortLocation} />
             <CatSelector category={category} setCategory={setCategory} />
-            <div className="listing-list">
+            <div className="listing-list justify-content-center">
                 {catListings.map(listing => <Listing trueLocation = {trueLocation} key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
             </div>
         </>
