@@ -27,3 +27,7 @@
     background-clip: padding-box;
     margin: auto;
 }
+
+.selector { 
+  display: table;
+}

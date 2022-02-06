@@ -10,6 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 import {Link} from "react-router-dom";
 import SearchBar from "./SearchBar"
 import { getItemByID } from '../utilities/data';
+import { GeoPoint } from 'firebase/firestore';
 
 
 //category buttons
@@ -32,7 +33,7 @@ const SortButton = ({ sort, setSort }) => (
 
 
 const CatSelector = ({ category, setCategory }) => (
-    <div className="btn-group">
+    <div className="btn-group selector">
         {
             c.map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
         }
@@ -158,8 +159,8 @@ const ListingsContainer = ({location, trueLocation}) => {
             Promise.all(listings.map(async (item, ind) => {
                 const user = await getItemByID("users", item.uid);
                 const image = await findImageUrl(item.imageURL);
-                listings[ind].location = user.location;
-                listings[ind].lookingFor = user.lookingFor;
+                listings[ind].location = user ? user.location : new GeoPoint(42.055, -87.675);
+                listings[ind].lookingFor = user? user.lookingFor : null;
                 listings[ind].image = image;
             })).then(() => setLoading2(false));
         }
