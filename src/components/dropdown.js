@@ -38,7 +38,7 @@ export function Option(props) {
 
 
 
-export const Dropdown = ({ setSelected}) => {
+export const Dropdown = ({ setSelected }) => {
     const [data, setData] = useState(null);
     const [user] = useUserState();
     const fetchDropdownData = useCallback(async () => {
@@ -50,7 +50,7 @@ export const Dropdown = ({ setSelected}) => {
     }, [fetchDropdownData]);
     if (!data) return <div>No Items</div>
 
-    
+
 
     const handleChange = (event) => {
         const {
@@ -60,22 +60,20 @@ export const Dropdown = ({ setSelected}) => {
     };
 
     return (
-      <FormControl fullWidth="true">
-        <InputLabel id="demo-simple-select-label">Your Offer</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Your Offer"
-          onChange={handleChange}
-        >
-          {data.map((item) => (
-            <MenuItem value={item}>{item.name}</MenuItem>
-          ))}
-        </Select>
-        {data.length === 0 ? <text style={{color: "red", fontSize: 8}}>
-            You must upload a listing before you can trade
-        </text> : null}
-      </FormControl>
+        <FormControl fullWidth="true">
+            <InputLabel id="demo-simple-select-label">Your Offer</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Your Offer"
+                onChange={handleChange}
+            >
+                {data.map((item) => (item.isActive === undefined || item.isActive === true ? <MenuItem value={item}>{item.name}</MenuItem> : <></>))}
+            </Select>
+            {data.length === 0 ? <text style={{ color: "red", fontSize: 8 }}>
+                You must upload a listing before you can trade
+            </text> : null}
+        </FormControl>
     );
-    
+
 }

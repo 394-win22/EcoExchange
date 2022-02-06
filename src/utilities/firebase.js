@@ -181,11 +181,11 @@ export const deleteTrade = async (id) => {
   await deleteDoc(existingTradeRef); 
 }
 
-export const changeListingStatus = async (id, status) => {
+export const changeListingStatus = async (id, isActive) => {
   const existingListingRef = doc(db, "listings", id)
   const existingListing = await getDoc(existingListingRef)
   if (!existingListing.exists()) {
     return;
   }
-  await updateDoc(existingListingRef, {status});
-}
+  await updateDoc(existingListingRef, {isActive});
+} 
