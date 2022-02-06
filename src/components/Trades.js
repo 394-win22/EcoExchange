@@ -112,7 +112,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
                             </textarea>
                         </div>
                         <div className="col-md-3">
-                            <button className="btn-success btn" onClick={e => sendMessage(e)}>
+                            <button className="btn-success btn" onClick={e => sendMessage(e)} disabled={msg==""}>
                                 Send
                             </button>
                         </div>
