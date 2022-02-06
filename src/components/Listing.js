@@ -172,8 +172,8 @@ const ListingsContainer = ({location, trueLocation}) => {
 
      // needs https
     if (!location) return (
-        <div className="container">
-            <Banner title="EcoExchange" />
+        <div className="container-fluid">
+            {/* <Banner title="EcoExchange" /> */}
             <Alert variant={'danger'}>
                 { user ? <span>Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location. If you're signed in, you can add it manually {<Alert.Link as={Link} to={"/profile"}>here</Alert.Link>}</span> : "Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location."}    
             </Alert>
@@ -183,11 +183,19 @@ const ListingsContainer = ({location, trueLocation}) => {
         </div>)
 
     return (
-        <div className="container">
-            <NavigationBar />
-            <ListingList trueLocation = {trueLocation} listings={listings} userLocation={location} setListing={setListing}/>
-            {listing ? <Popup listing={listing} setListing={setListing}></Popup> : null}
-        </div>)
+      <div className="container-fluid">
+        <NavigationBar />
+        <ListingList
+          trueLocation={trueLocation}
+          listings={listings}
+          userLocation={location}
+          setListing={setListing}
+        />
+        {listing ? (
+          <Popup listing={listing} setListing={setListing}></Popup>
+        ) : null}
+      </div>
+    );
 };
 
 export default ListingsContainer;

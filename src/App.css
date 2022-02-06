@@ -1,6 +1,6 @@
 .listing-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, max(20em, 25%));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
 .popup-item {

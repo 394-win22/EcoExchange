@@ -27,7 +27,7 @@ const NavigationBar = () => {
         <div>
 
             <Navbar bg="light" expand="lg">
-                <Container>
+                <Container fluid>
                     <Navbar.Brand as={Link} to={"/"}>EcoExchange</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
