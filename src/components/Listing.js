@@ -137,14 +137,14 @@ const ListingList = ({ listings, userLocation, setListing, trueLocation }) => {
     }, [user, query,category, sortLocation, listings, userLocation]);
 
     return (
-        <>           
+        <div>           
             <SearchBar setListings={setCatListings} listings={listings} query={query} setQuery={setQuery}/>
             <SortButton sort={sortLocation} setSort={setSortLocation} />
             <CatSelector category={category} setCategory={setCategory} />
             <div className="listing-list justify-content-center">
                 {catListings.map(listing => <Listing trueLocation = {trueLocation} key={listing.id} listing={listing} userLocation={userLocation} setListing={setListing} />)}
             </div>
-        </>
+        </div>
     );
 };
 

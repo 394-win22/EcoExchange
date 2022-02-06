@@ -14,7 +14,7 @@ export const SignInButton = () => (
 );
 
 export const SignOutButton = () => (
-    <Nav.Link as={Link} to={"/"} className="btn btn-secondary mx-1" onClick={() => signOut()}>
+    <Nav.Link as={Link} to={"/"} className="btn btn-secondary mx-1 text-white" onClick={() => signOut()}>
         Sign Out
     </Nav.Link> 
 );
