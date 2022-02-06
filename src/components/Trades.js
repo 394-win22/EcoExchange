@@ -95,9 +95,9 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/ }) => {
                             <img
                                 className="swap-arrows"
                                 style={{
-                                    maxWidth: "4rem",
+                                    maxWidth: "100%",
                                     maxHeight: "4rem",
-                                    margin: "9vh 0.5em",
+                                    margin: "8vh 0.3em",
                                 }}
                                 src={arrows}
                                 alt="Trade"

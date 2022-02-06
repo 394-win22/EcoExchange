@@ -154,9 +154,9 @@ export const Popup = ({ listing, setListing }) => {
                   <div className="row">
                     <button
                       type="button"
-                      className="btn btn-success offset-0 col-12 py-0"
+                      className="btn btn-success offset-0 col-12 py-2"
                       onClick={() => navigate("/add-listing")}
-                      style={{ fontSize: 10 }}
+                      style={{ fontSize: 15 }}
                     >
                       Upload Item to Inventory
                     </button>
