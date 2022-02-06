@@ -8,8 +8,8 @@ import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 export const ListingCard = (listing, imageUrl_target) => 
-  <div className="col-4 row d-flex justify-content-center align-items-center">
-    <div className="col card bg-light  align-items-center">
+  <div className="col-5 row d-flex justify-content-center align-items-center">
+    <div className="col card bg-light align-items-center">
       <img
         className="card-img-top"
         style={{ maxHeight: "30vh", objectFit: "contain" }}
@@ -23,7 +23,7 @@ export const ListingCard = (listing, imageUrl_target) =>
       <div
         className="card-body"
       >
-        <h6 className="card-title text-center" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
+        <h6 className="text-center" style={{overflowX: "wrap",overflowY: "wrap"}}>{listing.name}</h6>
       </div>
     </div>
   </div>
@@ -96,15 +96,14 @@ export const Popup = ({ listing, setListing }) => {
 
             <div className="popup-item">
               <div className="container">
-                <div className="row justify-content-center">
+                <div className="row justify-content-center align-items-center">
                   {ListingCard(selected, imageUrl_select)}
                   <div className="col-2 d-flex justify-content-center">
                     <img
                       className="swap-arrows"
                       style={{
-                        maxWidth: "4rem",
-                        maxHeight: "4rem",
-                        margin: "9vh 0.5em",
+                        maxWidth: "10vw",
+                        maxHeight: "10vw",
                       }}
                       src={arrows}
                       alt="Trade"
@@ -126,7 +125,7 @@ export const Popup = ({ listing, setListing }) => {
                   rows={5}
                 ></textarea>
               </div>
-              <div className="col-md-3 d-flex justify-content-center align-items-center">
+              <div className="col-md-3 d-flex justify-content-center align-items-center my-2">
                 <Dropdown setSelected={setSelected}></Dropdown>
               </div>
               <div className="col-md-4 d-flex justify-content-center align-items-center">
@@ -156,7 +155,7 @@ export const Popup = ({ listing, setListing }) => {
                       type="button"
                       className="btn btn-success offset-0 col-12 py-0"
                       onClick={() => navigate("/add-listing")}
-                      style={{ fontSize: 10 }}
+                      style={{ fontSize: 12 }}
                     >
                       Upload Item to Inventory
                     </button>

@@ -17,7 +17,7 @@ import { GeoPoint } from 'firebase/firestore';
 const CatButton = ({ category, setCategory, checked }) => (
     <>
         <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)} />
-        <label className="btn btn-success m-1 p-2" htmlFor={category}>
+        <label className={"btn btn-success mx-0 my-1 p-2"} htmlFor={category}>
             {category}
         </label>
     </>
@@ -89,6 +89,7 @@ const Listing = ({ listing, userLocation, setListing, trueLocation}) => {
             currentTarget.src = recycle;
           }}
           alt={listing.title}
+          style={{ maxHeight: "25vh", objectFit: "contain"}}
         />
         <div className="card-body">
           <h4 className="card-title">
@@ -98,9 +99,9 @@ const Listing = ({ listing, userLocation, setListing, trueLocation}) => {
           <p className="card-text">
             <b>Description:</b> {listing.description}
           </p>
-        <p className="card-text">
+          <p className="card-text">
             <b>Looking For:</b> {listing.lookingFor}
-        </p>
+          </p>
           {currentUser && listing.uid !== currentUser.uid ? (
             <TradeButton listing={listing} setListing={setListing} />
           ) : null}
