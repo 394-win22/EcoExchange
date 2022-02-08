@@ -78,6 +78,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/, inComingTrades, 
 
     if (loading1 || loading2 || loading3) return <div>Loading...</div>;
     if (error1 || error2 || error3) return <div>Error</div>;
+    if (!otherUser) return null;
 
     return (
         <Accordion sx={isDeleted ? { display: "none" } : {}}>
@@ -119,7 +120,7 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/, inComingTrades, 
                             </textarea>
                         </div>
                         <div className="col-md-3">
-                            <button className="btn-success btn" onClick={e => sendMessage(e)} disabled={msg==""}>
+                            <button className="btn-success btn" onClick={e => sendMessage(e)} disabled={msg===""}>
                                 Send
                             </button>
                         </div>
