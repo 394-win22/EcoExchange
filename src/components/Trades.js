@@ -78,6 +78,9 @@ const Trade = ({ trade, type /*incoming false, outgoing true*/, inComingTrades, 
 
     if (loading1 || loading2 || loading3) return <div>Loading...</div>;
     if (error1 || error2 || error3) return <div>Error</div>;
+    if (!otherUser) return null;
+    if (!posListing) return null;
+    if (!reqListing) return null;
 
     return (
         <Accordion sx={isDeleted ? { display: "none" } : {}}>
