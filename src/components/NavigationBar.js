@@ -47,8 +47,7 @@ const NavigationBar = () => {
                         </Navbar.Collapse>
                 </Container>
             </Navbar>
-
-            {!user ? <Alert variant={'success'}> Sign in to offer trades and post listings! </Alert> : null}
+           
         </div>
     );
 }

@@ -68,7 +68,7 @@ const ListingUpload = ({ }) => {
                   ></textarea>
                   <img
                       className="card-img-top"
-                      style={{ maxWidth: "200px", maxHeight: "200px" }}
+                      style={{ maxWidth: "20em", maxHeight: "20em", objectFit: "contain" }}
                       onError={({ currentTarget }) => {
                           currentTarget.onerror = null;
                           currentTarget.src = recycle;

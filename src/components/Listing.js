@@ -180,6 +180,7 @@ const ListingsContainer = ({location, trueLocation}) => {
             <Alert variant={'danger'}>
                 { user ? <span>Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location. If you're signed in, you can add it manually {<Alert.Link as={Link} to={"/profile"}>here</Alert.Link>}</span> : "Access to your location data is not enabled! Many functionalities of EcoExchange rely on your location."}    
             </Alert>
+             {!user ? <Alert variant={'success'}> Sign in to offer trades and post listings! </Alert> : null}
             <NavigationBar />
             <ListingList listings={listings} userLocation={location} setListing={setListing}/>
             <Popup listing={listing} setListing={setListing}></Popup>
