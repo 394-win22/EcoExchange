@@ -34,11 +34,13 @@ const SortButton = ({ sort, setSort }) => (
 
 
 const CatSelector = ({ category, setCategory }) => (
-    <div className="btn-group selector" style={{ marginBottom: '2.5rem', marginTop: '2.5rem'}}>
+    <div className="d-flex justify-content-center">
+    <div className="btn-group selector" style={{ marginBottom: '2rem', marginTop: '2rem'}}>
         {
             c.map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
         }
-    </div>
+        </div>
+        </div>
 );
 
 /*

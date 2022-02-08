@@ -24,13 +24,13 @@ const NavigationBar = () => {
     
     const [user] = useUserState();
     return (
-        <div>
+        <div className="d-flex justify-content-center" style={{ marginTop: '2.5rem', marginBottom: '2.5rem' }}>
             <Navbar bg="light" expand="lg">
                 <Container fluid>
                     <Navbar.Brand as={Link} to={"/"} style={{color: 'green'}}>EcoExchange</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
+                        <Nav className = "me-auto">
                             <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
                             {user ? <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link> : null}
                             {user ? <Nav.Link as={Link} to={"/trades"}>Trades</Nav.Link> : null}
@@ -43,12 +43,12 @@ const NavigationBar = () => {
 
                             </NavDropdown> */}
                                 {user ? <SignOutButton /> : <SignInButton />}
-
                         </Nav>
-                    </Navbar.Collapse>
+                        </Navbar.Collapse>
                 </Container>
             </Navbar>
-            {!user? <Alert variant={'success'}> Sign in to offer trades and post listings! </Alert> : null}
+
+            {!user ? <Alert variant={'success'}> Sign in to offer trades and post listings! </Alert> : null}
         </div>
     );
 }

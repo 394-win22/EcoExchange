@@ -80,8 +80,8 @@ const Profile = () => {
 
   return (
     <>
-      {user && data ? (
-        <div className="container">
+          {user && data ? (
+              <div className="container">
           <Modal
             open={open}
             onClose={handleClose}
@@ -133,7 +133,7 @@ const Profile = () => {
                       direction="column"
                       alignItems="center"
                       justify="center"
-                      style={{ minHeight: '100vh' }}
+                      style={{ minHeight: '100vh', marginTop: '2.5rem' }}
                   >
                       <Grid item xs={3}>
                           <Card sx={{ maxWidth: 345, maxHeight: 1000 }}>
