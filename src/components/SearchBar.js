@@ -38,6 +38,7 @@ const SearchBar = ({ listings, setListings, query, setQuery}) => {
     console.log(query)
     return (
         <>
+            <div style={{ marginTop: '2.5rem', backgroundColor: 'white'}}>
             <TextField fullWidth onChange={(e) => { setQuery(e.target.value ? e.target.value : "") }} defaultValue={""} value={query} label="Search Listings" />
             {/* <Autocomplete
                 disablePortal
@@ -56,6 +57,7 @@ const SearchBar = ({ listings, setListings, query, setQuery}) => {
                 defaultValue={""}
                 renderInput={(params) => <TextField {...params} value={query} label="Search Listings" />}
             /> */}
+            </div>
         </>
     )
 

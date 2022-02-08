@@ -19,12 +19,13 @@ const CatButton = ({ category, setCategory, checked }) => (
         <input type="radio" id={category} className="btn-check" autoComplete="off" checked={checked} onChange={() => setCategory(category)} />
         <label className={"btn btn-success mx-0 my-1 p-2"} htmlFor={category}>
             {category}
-        </label>
+            </label>
     </>
 );
 
 const SortButton = ({ sort, setSort }) => (
-    <div>
+    <div style={{
+        marginTop: '1rem'}}>
         <input className = "me-2" type="checkbox" id="sort" name="sort" value="sort" onChange={() => setSort(!sort)} />
         <label for="sort">Sort by location</label>
     </div>
@@ -33,7 +34,7 @@ const SortButton = ({ sort, setSort }) => (
 
 
 const CatSelector = ({ category, setCategory }) => (
-    <div className="btn-group selector">
+    <div className="btn-group selector" style={{ marginBottom: '2.5rem', marginTop: '2.5rem'}}>
         {
             c.map(value => <CatButton key={value} category={value} setCategory={setCategory} checked={value === category} />)
         }
@@ -130,7 +131,7 @@ const ListingList = ({ listings, userLocation, setListing, trueLocation }) => {
         if(category !== 'All') {
             filteredListings = filteredListings.filter(item => category === getItemCat(item))
         }
-        if(user && sortLocation) {
+        if(sortLocation) {
             filteredListings.sort((a, b) => userToItem(userLocation, a.location?._lat, a.location?._long) - userToItem( userLocation, b.location?._lat, b.location?._long))  
         }
         setCatListings(filteredListings)

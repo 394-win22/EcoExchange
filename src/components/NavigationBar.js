@@ -25,10 +25,9 @@ const NavigationBar = () => {
     const [user] = useUserState();
     return (
         <div>
-
             <Navbar bg="light" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand as={Link} to={"/"}>EcoExchange</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={"/"} style={{color: 'green'}}>EcoExchange</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
